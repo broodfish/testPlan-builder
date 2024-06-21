@@ -43,20 +43,23 @@
 const route = useRoute();
 const props = defineProps<{
   modelValue: boolean;
-  data: {
-    case: CustomTestCase;
-    suite: string;
-  };
+  data: Case;
 }>();
 const emit = defineEmits(["update:modelValue", "edit"]);
 const modelValue = computed<boolean>({
   get: () => props.modelValue,
   set: (value) => emit("update:modelValue", value),
 });
-const description = ref<string>(props.data.case.description);
-const suite = ref<string>(props.data.suite);
-const priority = ref<string>(props.data.case.priority);
-const prerequisite = ref<string>(props.data.case.prerequisite);
+const description = ref<string>(props.data.description);
+const suite = ref<string | undefined>(
+  getSuite(
+    Number(route.params.proID),
+    Number(route.params.planID),
+    props.data.gid,
+  )?.name,
+);
+const priority = ref<string>(props.data.priority);
+const prerequisite = ref<string>(props.data.prerequisite);
 
 const editHandler = () => {
   modelValue.value = false;
@@ -66,10 +69,14 @@ const editHandler = () => {
 watch(
   () => props.data,
   (value) => {
-    description.value = value.case.description;
-    priority.value = value.case.priority;
-    prerequisite.value = value.case.prerequisite;
-    suite.value = value.suite;
+    description.value = value.description;
+    priority.value = value.priority;
+    prerequisite.value = value.prerequisite;
+    suite.value = getSuite(
+      Number(route.params.proID),
+      Number(route.params.planID),
+      props.data.gid,
+    )?.name;
   },
 );
 </script>

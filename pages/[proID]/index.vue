@@ -2,11 +2,20 @@
   <div>
     <layouts-default-title>Overview</layouts-default-title>
     <div class="tw-flex tw-flex-col tw-gap-10">
-      <div class="tw-flex tw-flex-wrap tw-gap-10">
+      <div class="tw-grid tw-grid-cols-2 tw-gap-4">
         <base-card>
-          <template #title> PASS RATE GROWTH </template>
+          <template #title> TIMELINE </template>
           <template #content>
-            <div class="tw-h-[200px] tw-w-80">123</div>
+            <div class="tw-flex">
+              <v-timeline side="end">
+                <v-timeline-item dot-color="tertiaryContainer" size="x-small">
+                  <div class="tw-font-bold">2019/10/13 12:32</div>
+                  <div class="text-secondary tw-indent-4">
+                    Create a new project "ZCP-Web"
+                  </div>
+                </v-timeline-item>
+              </v-timeline>
+            </div>
           </template>
         </base-card>
         <base-card>
@@ -34,44 +43,42 @@
           </template>
         </base-card>
       </div>
-      <div>
-        <base-card>
-          <template #title>
-            <div
-              class="tw-h-full tw-w-full tw-cursor-pointer"
-              @click="navigateTo(`/${route.params.proID}/testRuns`)"
-            >
-              RECENT RESULTS
-            </div>
-          </template>
-          <template #content>
-            <v-data-table :headers="headers" :items="recentRuns">
-              <template #item="{ item }">
-                <tr
-                  class="hover:tw-cursor-pointer"
-                  @click="
-                    navigateTo(`/${route.params.proID}/testRuns/${item.id}`)
-                  "
-                >
-                  <td>
-                    {{ item.title }}
-                  </td>
-                  <td class="tw-text-center">
-                    {{ item.createdTime }}
-                  </td>
-                  <td class="tw-text-center">
-                    {{ item.finishedTime }}
-                  </td>
-                  <td class="tw-text-center">
-                    {{ item.passRate }}% ({{ item.pass }}/{{ item.fail }})
-                  </td>
-                </tr>
-              </template>
-              <template #bottom></template>
-            </v-data-table>
-          </template>
-        </base-card>
-      </div>
+      <base-card>
+        <template #title>
+          <div
+            class="tw-h-full tw-w-full tw-cursor-pointer"
+            @click="navigateTo(`/${route.params.proID}/testRuns`)"
+          >
+            RECENT RESULTS
+          </div>
+        </template>
+        <template #content>
+          <v-data-table :headers="headers" :items="recentRuns">
+            <template #item="{ item }">
+              <tr
+                class="hover:tw-cursor-pointer"
+                @click="
+                  navigateTo(`/${route.params.proID}/testRuns/${item.id}`)
+                "
+              >
+                <td>
+                  {{ item.title }}
+                </td>
+                <td class="tw-text-center">
+                  {{ item.createdTime }}
+                </td>
+                <td class="tw-text-center">
+                  {{ item.finishedTime }}
+                </td>
+                <td class="tw-text-center">
+                  {{ calcPassRate(item.plan.list.data).passRate }}%
+                </td>
+              </tr>
+            </template>
+            <template #bottom></template>
+          </v-data-table>
+        </template>
+      </base-card>
     </div>
   </div>
 </template>
@@ -101,9 +108,9 @@ const headers: ReadonlyHeaders = [
     width: "200",
   },
   {
-    title: "Pass Rate (Pass/Fail)",
+    title: "Pass Rate",
     align: "center",
-    width: "200",
+    width: "100",
   },
 ];
 

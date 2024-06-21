@@ -84,19 +84,25 @@ const adding = ref(false);
 const editing = ref(false);
 const creating = ref(false);
 const deleting = ref(false);
-const edittedPlan = ref<CustomTestPlan>({
+const edittedPlan = ref<Plan>({
   id: -1,
   title: "",
   description: "",
   createdTime: "",
-  cases: [],
+  list: {
+    num: 0,
+    data: [],
+  },
 });
-const newRunData = ref<CustomTestPlan>({
+const newRunData = ref<Plan>({
   id: -1,
   title: "",
   description: "",
   createdTime: "",
-  cases: [],
+  list: {
+    num: 0,
+    data: [],
+  },
 });
 
 const headers: ReadonlyHeaders = [

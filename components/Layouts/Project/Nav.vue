@@ -7,6 +7,10 @@
           title="Overview"
           value="overview"
           class="mb-2"
+          :active="
+            !route.path.includes('testPlans') &&
+            !route.path.includes('testRuns')
+          "
         ></v-list-item>
       </nuxt-link>
       <nuxt-link :to="`/${route.params.proID}/testPlans`">
@@ -15,6 +19,7 @@
           title="Test Plans"
           value="testPlans"
           class="mb-2"
+          :active="route.path.includes('testPlans')"
         ></v-list-item>
       </nuxt-link>
       <nuxt-link :to="`/${route.params.proID}/testRuns`">
@@ -22,6 +27,7 @@
           prepend-icon="area_chart"
           title="Test Runs"
           value="testRuns"
+          :active="route.path.includes('testRuns')"
         ></v-list-item>
       </nuxt-link>
     </v-list>

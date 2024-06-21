@@ -13,7 +13,7 @@
         </div>
         <div class="item">
           <span class="label">Team Suite</span>
-          <span>{{ currentSuite }}</span>
+          <span>{{ currentSuite?.name }}</span>
         </div>
         <div class="item">
           <span class="label">Priority</span>
@@ -37,7 +37,7 @@
           >Edit</v-btn
         >
       </div>
-      <v-data-table-virtual :items="tempCase?.steps" :headers="headers">
+      <v-data-table-virtual :items="tempCase?.steps.data" :headers="headers">
         <template #item="{ index }">
           <tr>
             <td class="text-grey">{{ index + 1 }}</td>
@@ -47,7 +47,7 @@
                 :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
               >
                 <v-textarea
-                  v-model="tempCase!.steps[index].action"
+                  v-model="tempCase!.steps.data[index].action"
                   variant="solo"
                   flat
                   tile
@@ -66,7 +66,7 @@
                 :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
               >
                 <v-textarea
-                  v-model="tempCase!.steps[index].inputs"
+                  v-model="tempCase!.steps.data[index].inputs"
                   variant="solo"
                   flat
                   tile
@@ -85,7 +85,7 @@
                 :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
               >
                 <v-textarea
-                  v-model="tempCase!.steps[index].expectedOutput"
+                  v-model="tempCase!.steps.data[index].expectedOutput"
                   variant="solo"
                   flat
                   tile
@@ -105,7 +105,7 @@
                 variant="text"
                 size="small"
                 color="error"
-                @click="tempCase?.steps.splice(index, 1)"
+                @click="tempCase?.steps.data.splice(index, 1)"
                 ><v-icon>delete</v-icon></v-btn
               >
             </td>
@@ -133,18 +133,19 @@ const route = useRoute();
 const currentCase = computed(() => {
   const proID = Number(route.params.proID);
   const planID = Number(route.params.planID);
+  const groupID = Number(route.params.groupID);
   const caseID = Number(route.params.caseID);
-  return getCase(proID, planID, caseID);
+  return getCase(proID, planID, groupID, caseID);
 });
 
 const currentSuite = computed(() => {
   const proID = Number(route.params.proID);
   const planID = Number(route.params.planID);
-  const caseID = Number(route.params.caseID);
-  return getSuite(proID, planID, caseID);
+  const groupID = Number(route.params.groupID);
+  return getSuite(proID, planID, groupID);
 });
 
-const tempCase = ref<CustomTestCase | undefined>(undefined);
+const tempCase = ref<Case | undefined>(undefined);
 
 const headers: ReadonlyHeaders = [
   {
@@ -178,7 +179,7 @@ const headers: ReadonlyHeaders = [
 const editing = ref(false);
 
 const addHandler = () => {
-  tempCase.value?.steps.push({
+  tempCase.value?.steps.data.push({
     id: -1,
     action: "",
     inputs: "",
@@ -186,13 +187,13 @@ const addHandler = () => {
   });
 };
 const updateHandler = () => {
-  tempCase.value?.steps.forEach((step, index) => {
+  tempCase.value?.steps.data.forEach((step, index) => {
     if (
       step.action === "" &&
       step.inputs === "" &&
       step.expectedOutput === ""
     ) {
-      tempCase.value?.steps.splice(index, 1);
+      tempCase.value?.steps.data.splice(index, 1);
     }
   });
   editing.value = false;

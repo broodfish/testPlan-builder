@@ -24,7 +24,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   modelValue: boolean;
-  item: CustomTestPlan;
+  item: Plan;
 }>();
 const emit = defineEmits(["update:modelValue", "edit"]);
 const modelValue = computed<boolean>({

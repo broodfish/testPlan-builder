@@ -15,13 +15,13 @@
             <td class="tw-text-center">{{ item.createdTime }}</td>
             <td class="tw-text-center">
               <v-progress-linear
-                v-model="item.progress"
+                :model-value="calcProgress(item.plan.list.data).progress"
                 height="15"
                 color="green"
               >
                 <template #default>
                   <span class="tw-text-xs"
-                    >{{ Math.ceil(item.progress) }}%</span
+                    >{{ calcProgress(item.plan.list.data).progress }}%</span
                   >
                 </template>
               </v-progress-linear>
@@ -34,7 +34,11 @@
       <span class="subtitle text-green">Finished</span>
       <v-data-table :items="finished" :headers="finishedHeaders">
         <template #item="{ item }">
-          <tr>
+          <tr
+            v-ripple
+            class="hover:tw-cursor-pointer hover:tw-bg-[rgba(0,0,0,0.04)]"
+            @click="navigateTo(`/${route.params.proID}/testRuns/${item.id}`)"
+          >
             <td>{{ item.id }}</td>
             <td>{{ item.title }}</td>
             <td class="tw-text-center">{{ item.createdTime }}</td>
@@ -42,7 +46,7 @@
               {{ item.finishedTime }}
             </td>
             <td class="tw-text-center">
-              {{ item.passRate }}% ({{ item.pass }}/{{ item.fail }})
+              {{ calcPassRate(item.plan.list.data).passRate }}%
             </td>
           </tr>
         </template>
@@ -87,9 +91,9 @@ const finishedHeaders: ReadonlyHeaders = [
     align: "center",
   },
   {
-    title: "Pass Rate (Pass/Fail)",
+    title: "Pass Rate",
     align: "center",
-    width: "200",
+    width: "100",
   },
 ];
 </script>

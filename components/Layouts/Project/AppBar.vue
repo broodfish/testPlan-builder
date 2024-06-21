@@ -10,8 +10,10 @@
         />Zinwell
       </div>
     </nuxt-link>
-    <layouts-project-breadcrumbs></layouts-project-breadcrumbs>
   </v-app-bar>
+  <v-app-bar elevation="0"
+    ><layouts-project-breadcrumbs></layouts-project-breadcrumbs
+  ></v-app-bar>
 </template>
 <script setup lang="ts">
 const emit = defineEmits(["toggleDrawer"]);

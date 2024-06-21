@@ -30,26 +30,27 @@
           class="tw-flex tw-w-full tw-flex-row tw-items-center tw-justify-between tw-pr-4"
         >
           <v-btn-group variant="text" tile>
-            <v-btn color="primary">
+            <v-btn v-if="!lock" color="primary">
               <v-icon class="tw-mr-1">upload_file</v-icon>
               Import</v-btn
             >
-            <v-btn color="primary">
-              <v-icon class="tw-mr-1">save</v-icon>
-              Save</v-btn
-            >
-            <v-btn color="primary">
+            <v-btn v-if="!lock" color="primary" @click="lock = true">
               <v-icon class="tw-mr-1">lock</v-icon>
               Lock</v-btn
+            >
+            <v-btn v-else color="primary" @click="lock = false">
+              <v-icon class="tw-mr-1">lock_open</v-icon>
+              UnLock</v-btn
             >
           </v-btn-group>
           <div
             class="text-outline tw-flex tw-h-[36px] tw-flex-row tw-items-center tw-gap-4 tw-font-mono tw-text-sm"
           >
-            <span class="text-grey">Unfinished {{ unfinishedNumber }} </span>/
-            <span class="text-green">Pass {{ passNumber }}</span
+            <span class="text-grey"
+              >Unfinished {{ progress.total - progress.finished }} </span
+            >/ <span class="text-green">Pass {{ passRate.pass }}</span
             >/
-            <span class="text-error">Fail {{ failNumber }}</span>
+            <span class="text-error">Fail {{ passRate.fail }}</span>
           </div>
         </div>
       </v-app-bar>
@@ -57,11 +58,14 @@
         class="scrollbar-transparent border-sm border-primary tw-overflow-y-scroll"
       >
         <div class="tw-flex tw-flex-col tw-gap-10 tw-px-4 tw-py-8">
-          <div v-for="group in tempCases" :key="group.suite">
-            <div v-if="group.list.length > 0">
-              <span class="subtitle text-primary">{{ group.suite }}</span>
+          <div v-for="group in tempCases" :key="group.id">
+            <div v-if="group.cases.num > 0">
+              <span class="subtitle text-primary">{{ group.name }}</span>
               <div class="tw-mt-2">
-                <div v-for="(caseItem, i) in group.list" :key="caseItem.id">
+                <div
+                  v-for="(caseItem, i) in group.cases.data"
+                  :key="caseItem.id"
+                >
                   <v-divider v-if="i !== 0" :thickness="10"></v-divider>
                   <div
                     v-ripple
@@ -72,7 +76,7 @@
                       <v-icon color="grey">keyboard_arrow_down</v-icon>
                       <span class="tw-mx-2">{{ caseItem.description }}</span>
                       <span
-                        v-if="caseItem.steps.find((item) => item.result === '')"
+                        v-if="caseItem.steps.data.find((item) => !item.result)"
                         class="text-grey"
                         ><v-icon color="grey" size="x-small" class="tw-mr-1"
                           >close</v-icon
@@ -95,6 +99,7 @@
                         density="compact"
                         :active="isAllPass(caseItem)"
                         :color="isAllPass(caseItem) ? 'green' : ''"
+                        :readonly="lock"
                         @click.stop="allPassHandler(caseItem)"
                         ><v-icon>check</v-icon></v-btn
                       >
@@ -105,6 +110,7 @@
                         density="compact"
                         :active="isAllFail(caseItem)"
                         :color="isAllFail(caseItem) ? 'error' : ''"
+                        :readonly="lock"
                         @click.stop="allFailHandler(caseItem)"
                         ><v-icon>close</v-icon></v-btn
                       >
@@ -116,7 +122,7 @@
                       class="border-t-sm border-e-sm border-s-sm"
                     >
                       <v-data-table-virtual
-                        :items="caseItem.steps"
+                        :items="caseItem.steps.data"
                         :headers="stepHeaders"
                         :header-props="{
                           class:
@@ -155,6 +161,7 @@
                                   auto-grow
                                   :rows="4"
                                   class="text-xs"
+                                  :readonly="lock"
                                 ></v-textarea>
                               </div>
                             </td>
@@ -169,6 +176,7 @@
                                   density="compact"
                                   :active="item.result === 'pass'"
                                   :color="item.result === 'pass' ? 'green' : ''"
+                                  :readonly="lock"
                                   @click="item.result = 'pass'"
                                   ><v-icon>check</v-icon></v-btn
                                 >
@@ -179,6 +187,7 @@
                                   density="compact"
                                   :active="item.result === 'fail'"
                                   :color="item.result === 'fail' ? 'error' : ''"
+                                  :readonly="lock"
                                   @click="item.result = 'fail'"
                                   ><v-icon>close</v-icon></v-btn
                                 >
@@ -208,8 +217,9 @@ const route = useRoute();
 const currentRun = computed(() =>
   getRun(Number(route.params.proID), Number(route.params.runID)),
 );
-const tempCases = ref<RunCaseGroup[]>([]);
+const tempCases = ref<CaseGroup[]>([]);
 const opened = ref<number[]>([]);
+const lock = ref<boolean>();
 const stepHeaders: ReadonlyHeaders = [
   {
     key: "order",
@@ -244,51 +254,9 @@ const stepHeaders: ReadonlyHeaders = [
     width: "75",
   },
 ];
-const unfinishedNumber = computed(() => {
-  let num = 0;
-  if (tempCases.value) {
-    tempCases.value.forEach((group) => {
-      group.list.forEach((item) => {
-        item.steps.forEach((step) => {
-          if (step.result === "") {
-            num++;
-          }
-        });
-      });
-    });
-  }
-  return num;
-});
-const passNumber = computed(() => {
-  let num = 0;
-  if (tempCases.value) {
-    tempCases.value.forEach((group) => {
-      group.list.forEach((item) => {
-        item.steps.forEach((step) => {
-          if (step.result === "pass") {
-            num++;
-          }
-        });
-      });
-    });
-  }
-  return num;
-});
-const failNumber = computed(() => {
-  let num = 0;
-  if (tempCases.value) {
-    tempCases.value.forEach((group) => {
-      group.list.forEach((item) => {
-        item.steps.forEach((step) => {
-          if (step.result === "fail") {
-            num++;
-          }
-        });
-      });
-    });
-  }
-  return num;
-});
+
+const progress = computed(() => calcProgress(tempCases.value));
+const passRate = computed(() => calcPassRate(tempCases.value));
 
 const toggleHandler = (id: number) => {
   if (opened.value.includes(id)) {
@@ -297,27 +265,29 @@ const toggleHandler = (id: number) => {
     opened.value.push(id);
   }
 };
-const allPassHandler = (caseItem: RunCase) => {
-  caseItem.steps.forEach((step) => {
+const allPassHandler = (caseItem: Case) => {
+  caseItem.steps.data.forEach((step) => {
     step.result = "pass";
   });
 };
-const allFailHandler = (caseItem: RunCase) => {
-  caseItem.steps.forEach((step) => {
+const allFailHandler = (caseItem: Case) => {
+  caseItem.steps.data.forEach((step) => {
     step.result = "fail";
   });
 };
-const isAllPass = (caseItem: RunCase) => {
-  return caseItem.steps.every((step) => step.result === "pass");
+const isAllPass = (caseItem: Case) => {
+  return caseItem.steps.data.every((step) => step.result === "pass");
 };
-const isAllFail = (caseItem: RunCase) => {
-  if (caseItem.steps.length === 0) return false;
-  return caseItem.steps.every((step) => step.result === "fail");
+const isAllFail = (caseItem: Case) => {
+  if (caseItem.steps.num === 0) return false;
+  return caseItem.steps.data.every((step) => step.result === "fail");
 };
 
 onMounted(() => {
   if (currentRun.value) {
-    tempCases.value = currentRun.value.cases;
+    tempCases.value = currentRun.value.plan.list.data;
+    opened.value.push(currentRun.value.plan.list.data[0].cases.data[0].id);
+    lock.value = currentRun.value.status === "finished";
   }
 });
 </script>

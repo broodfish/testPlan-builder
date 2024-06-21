@@ -41,7 +41,8 @@ const route = useRoute();
 const currentCase = computed(() => {
   const proID = Number(route.params.proID);
   const planID = Number(route.params.planID);
+  const groupID = Number(route.params.groupID);
   const caseID = Number(route.params.caseID);
-  return getCase(proID, planID, caseID);
+  return getCase(proID, planID, groupID, caseID);
 });
 </script>

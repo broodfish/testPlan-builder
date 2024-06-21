@@ -8,12 +8,12 @@
     >
       <v-list-subheader>{{ currentPlan?.title }}</v-list-subheader>
       <v-list-group
-        v-for="group in currentPlan?.cases"
-        :key="group.suite"
-        :value="group.suite"
+        v-for="group in currentPlan?.list.data"
+        :key="group.id"
+        :value="group.id"
       >
         <template #activator="{ props }">
-          <v-list-item v-bind="props" class="tw-font-bold" :value="group.suite">
+          <v-list-item v-bind="props" class="tw-font-bold" :value="group.id">
             <template #default>
               <div class="tw-flex tw-gap-2">
                 <div class="tw-flex tw-gap-1">
@@ -22,16 +22,16 @@
                     class="tw-transition"
                     size="small"
                     :class="
-                      openedSuite.includes(group.suite) ? 'tw-rotate-180' : ''
+                      openedSuite.includes(group.id) ? 'tw-rotate-180' : ''
                     "
                     >keyboard_arrow_down</v-icon
                   >
                   <v-icon color="blue-lighten-1" size="small">{{
-                    openedSuite.includes(group.suite) ? "folder_open" : "folder"
+                    openedSuite.includes(group.id) ? "folder_open" : "folder"
                   }}</v-icon>
                 </div>
                 <span class="tw-block tw-truncate tw-text-nowrap tw-text-sm">
-                  {{ group.suite }}
+                  {{ group.name }}
                 </span>
               </div>
             </template>
@@ -39,7 +39,7 @@
           </v-list-item>
         </template>
         <v-list-item
-          v-for="caseItem in group.list"
+          v-for="caseItem in group.cases.data"
           :key="caseItem.id"
           :value="caseItem.id"
         >
@@ -83,16 +83,16 @@ const route = useRoute();
 const currentPlan = computed(() =>
   getPlan(Number(route.params.proID), Number(route.params.planID)),
 );
-const openedSuite = ref<string[]>([]);
+const openedSuite = ref<number[]>([]);
 
 onMounted(() => {
   const currentSuite = getSuite(
     Number(route.params.proID),
     Number(route.params.planID),
-    Number(route.params.caseID),
+    Number(route.params.groupID),
   );
   if (currentSuite) {
-    openedSuite.value.push(currentSuite);
+    openedSuite.value.push(currentSuite.id);
   }
 });
 </script>

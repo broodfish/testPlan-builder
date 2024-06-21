@@ -1,6 +1,16 @@
 <template>
   <ul class="tw-flex tw-items-center tw-px-3 tw-py-2">
-    <span v-for="(item, i) in items" :key="i" class="tw-flex">
+    <v-btn
+      icon
+      size="x-small"
+      @click="
+        items.length > 1
+          ? navigateTo(items[items.length - 2].href)
+          : navigateTo('/')
+      "
+      ><v-icon>arrow_back_ios</v-icon></v-btn
+    >
+    <span v-for="(item, i) in items" :key="i" class="tw-flex tw-items-center">
       <nuxt-link :to="item.disabled ? undefined : item.href">
         <li
           class="px-2 tw-font-bold"
@@ -13,7 +23,7 @@
           {{ item.title }}
         </li>
       </nuxt-link>
-      <li v-if="!item.disabled">/</li>
+      <li v-if="!item.disabled" class="tw-select-none tw-font-bold">/</li>
     </span>
   </ul>
   <!-- <v-breadcrumbs :items="items"></v-breadcrumbs> -->
@@ -44,6 +54,7 @@ const items = computed(() => {
         title.value = getCase(
           Number(route.params.proID),
           Number(route.params.planID),
+          Number(route.params.groupID),
           Number(route.params.caseID),
         )!.description;
       } else {

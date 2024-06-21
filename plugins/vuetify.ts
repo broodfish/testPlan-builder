@@ -8,7 +8,7 @@ import { md, aliases } from "vuetify/iconsets/md";
 
 const light: ThemeDefinition = {
   colors: {
-    primary: "#435E91",
+    primary: "#5575B6",
     onPrimary: "#FFFFFF",
     primaryContainer: "#D7E2FF",
     onPrimaryContainer: "#001A40",
@@ -34,7 +34,7 @@ const light: ThemeDefinition = {
     outlineVariant: "#C4C6D0",
     neutral: "#E8E1DC",
     onNeutral: "#1E1B18",
-    shadow: "#efefef",
+    shadow: "#fafafa",
   },
 };
 
@@ -76,13 +76,13 @@ export default defineNuxtPlugin((app) => {
       VDataTable: {
         hover: true,
         headerProps: {
-          class: "text-outlineVariant h-auto font-weight-black px-3 py-1",
+          class: "text-outline h-auto font-weight-black px-3 py-1",
         },
       },
       VDataTableVirtual: {
         hover: true,
         headerProps: {
-          class: "text-outlineVariant h-auto font-weight-black px-3 py-1",
+          class: "text-outline h-auto font-weight-black px-3 py-1",
         },
       },
       VTextField: {

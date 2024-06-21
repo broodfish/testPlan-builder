@@ -47,10 +47,10 @@
       <div class="tw-flex tw-flex-col tw-gap-14">
         <div v-for="(group, i) in testCases" :key="i">
           <span class="subtitle">
-            {{ group.suite.toUpperCase() }}
+            {{ group.name.toUpperCase() }}
           </span>
           <v-data-table-virtual
-            :items="group.list"
+            :items="group.cases.data"
             :headers="headers"
             no-data-text="No Test Case"
           >
@@ -62,13 +62,13 @@
                   class="hover:tw-cursor-pointer hover:tw-bg-[rgba(0,0,0,0.04)]"
                   @click="
                     navigateTo(
-                      `/${route.params.proID}/testPlans/${route.params.planID}/${item.id}`,
+                      `/${route.params.proID}/testPlans/${route.params.planID}/${group.id}/${item.id}`,
                     )
                   "
                 >
                   {{ item.description }}
                 </td>
-                <td>{{ item.steps.length }}</td>
+                <td>{{ item.steps.num }}</td>
                 <td class="tw-text-center">
                   <v-chip v-if="item.priority === 'High'" color="error"
                     >High</v-chip
@@ -82,8 +82,7 @@
                   <menu-actions
                     @edit="
                       () => {
-                        currentCase.case = item;
-                        currentCase.suite = group.suite;
+                        currentCase = item;
                         console.log(currentCase);
                         editing = true;
                       }
@@ -141,22 +140,26 @@ const creating = ref(false);
 const adding = ref(false);
 const editing = ref(false);
 const deleting = ref(false);
-const newRunData = ref<CustomTestPlan>({
+const newRunData = ref<Plan>({
   id: -1,
   title: "",
   description: "",
   createdTime: "",
-  cases: [],
-});
-const currentCase = ref<{ case: CustomTestCase; suite: string }>({
-  case: {
-    id: -1,
-    description: "",
-    priority: "Medium",
-    prerequisite: "",
-    steps: [],
+  list: {
+    num: 0,
+    data: [],
   },
-  suite: "",
+});
+const currentCase = ref<Case>({
+  id: -1,
+  gid: -1,
+  description: "",
+  priority: "Medium",
+  prerequisite: "",
+  steps: {
+    num: 0,
+    data: [],
+  },
 });
 
 const headers: ReadonlyHeaders = [
