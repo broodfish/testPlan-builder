@@ -171,7 +171,7 @@ export const data: Project[] = [
                       id: 1112,
                       gid: 111,
                       description: "Login with invalid credentials",
-                      priority: "High",
+                      priority: "Medium",
                       prerequisite: "",
                       steps: {
                         num: 3,
@@ -204,7 +204,7 @@ export const data: Project[] = [
                       id: 1113,
                       gid: 111,
                       description: "Logout",
-                      priority: "High",
+                      priority: "Low",
                       prerequisite: "Login with valid credentials",
                       steps: {
                         num: 2,
@@ -1230,5 +1230,50 @@ export const data: Project[] = [
         },
       ],
     },
+  },
+];
+
+export const logs: LogData[] = [
+  {
+    id: 1,
+    time: "2024/01/03 10:45",
+    action: "created",
+    type: "project",
+    name: "ZCP-Web",
+  },
+  {
+    id: 2,
+    time: "2024/01/03 10:48",
+    action: "created",
+    type: "plan",
+    name: "Version 1.0.0",
+  },
+  {
+    id: 3,
+    time: "2024/01/08 10:50",
+    action: "created",
+    type: "run",
+    name: "Test Run for Version 1.0.0",
+  },
+  {
+    id: 4,
+    time: "2024/01/09 10:45",
+    action: "finished",
+    type: "run",
+    name: "Test Run for Version 1.0.0",
+  },
+  {
+    id: 5,
+    time: "2024/01/09 14:32",
+    action: "created",
+    type: "project",
+    name: "ZCP-App",
+  },
+  {
+    id: 7,
+    time: "2024/01/10 10:48",
+    action: "deleted",
+    type: "plan",
+    name: "Version 1.0.0",
   },
 ];

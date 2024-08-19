@@ -11,7 +11,7 @@
       </div>
     </nuxt-link>
   </v-app-bar>
-  <v-app-bar elevation="0"
+  <v-app-bar elevation="0" color="shadow" density="compact" class="border-b"
     ><layouts-project-breadcrumbs></layouts-project-breadcrumbs
   ></v-app-bar>
 </template>

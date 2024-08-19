@@ -30,7 +30,7 @@
                     openedSuite.includes(group.id) ? "folder_open" : "folder"
                   }}</v-icon>
                 </div>
-                <span class="tw-block tw-truncate tw-text-nowrap tw-text-sm">
+                <span class="tw-block tw-truncate tw-text-nowrap tw-text-xs">
                   {{ group.name }}
                 </span>
               </div>
@@ -45,7 +45,7 @@
         >
           <template #default="{ isSelected }">
             <span
-              class="pl-2 tw-block tw-truncate tw-text-nowrap tw-text-sm"
+              class="pl-2 tw-block tw-truncate tw-text-nowrap tw-text-xs"
               :class="
                 isSelected
                   ? 'text-primary-lighten-3 tw-font-bold'
@@ -54,22 +54,30 @@
               @click="
                 !isSelected &&
                   navigateTo(
-                    `/${route.params.proID}/testPlans/${route.params.planID}/${caseItem.id}`,
+                    `/${route.params.proID}/testPlans/${route.params.planID}/${group.id}/${caseItem.id}`,
                   )
               "
             >
-              {{ caseItem.description }}
+              <v-icon>assignment</v-icon> {{ caseItem.description }}
             </span>
           </template>
         </v-list-item>
         <v-list-item>
-          <v-btn prepend-icon="add" variant="plain" color="primary" size="small"
+          <v-btn
+            prepend-icon="add"
+            variant="plain"
+            color="primary"
+            size="x-small"
             >New Test Case <menu-new-case></menu-new-case>
           </v-btn>
         </v-list-item>
       </v-list-group>
       <v-list-item class="tw-mt-2">
-        <v-btn prepend-icon="add" variant="plain" color="tertiary" size="small"
+        <v-btn
+          prepend-icon="add"
+          variant="plain"
+          color="tertiary"
+          size="x-small"
           >New Test Suite
           <menu-new-suite></menu-new-suite>
         </v-btn>

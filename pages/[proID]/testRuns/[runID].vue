@@ -3,7 +3,7 @@
     <layouts-default-title>
       <span>{{ currentRun?.title }}</span>
     </layouts-default-title>
-    <div class="tw-mb-8 tw-grid tw-grid-cols-2">
+    <div class="tw-mb-8 tw-grid tw-h-min tw-flex-grow tw-grid-cols-2 tw-gap-2">
       <div class="item">
         <div class="label">Test Run ID</div>
         <div>{{ currentRun?.id }}</div>
@@ -21,43 +21,92 @@
           >
         </div>
       </div>
+      <div class="item">
+        <div class="label">Created Time</div>
+        <div>
+          {{ currentRun?.createdTime }}
+        </div>
+      </div>
+      <div class="item">
+        <div class="label">Finished Time</div>
+        <div>
+          {{ currentRun?.finishedTime }}
+        </div>
+      </div>
     </div>
+    <v-card
+      v-if="status === 'finished'"
+      flat
+      border="primary-lighten-1 opacity-100 thin"
+      class="tw-mb-8"
+    >
+      <div class="tw-flex tw-flex-row tw-items-center tw-justify-center tw-p-4">
+        <div class="tw-mr-4 tw-h-[200px] tw-w-[200px]">
+          <chart-pie
+            :data="{ pass: passRate.pass, fail: passRate.fail }"
+          ></chart-pie>
+        </div>
+        <div class="tw-mr-24">
+          <div class="tw-flex tw-flex-row tw-items-center tw-gap-2">
+            <div class="tw-h-4 tw-w-4 tw-bg-[#82cf85]"></div>
+            <span>{{ passRate.pass }}</span>
+            passed
+          </div>
+          <div class="tw-flex tw-flex-row tw-items-center tw-gap-2">
+            <div class="tw-h-4 tw-w-4 tw-bg-[#FF897D]"></div>
+            <span>{{ passRate.fail }}</span>
+            failed
+          </div>
+        </div>
+        <div class="tw-p-4">
+          <div>Pass Rate</div>
+          <div class="text-green tw-text-right tw-text-4xl">
+            <span class="tw-font-mono">{{ passRate.passRate }}</span
+            >%
+          </div>
+        </div>
+      </div>
+    </v-card>
     <v-layout
       class="tw-overflow-hidden tw-bg-[rgba(var(--v-theme-secondaryContainer),0.1)]"
     >
-      <v-app-bar density="compact" elevation="0" color="secondaryContainer">
+      <v-app-bar
+        v-if="status === 'running'"
+        density="compact"
+        elevation="0"
+        color="secondaryContainer"
+      >
         <div
-          class="tw-flex tw-w-full tw-flex-row tw-items-center tw-justify-between tw-pr-4"
+          class="tw-flex tw-w-full tw-flex-row tw-items-center tw-justify-between tw-p-4"
         >
-          <v-btn-group variant="text" tile>
-            <v-btn v-if="!lock" color="primary">
-              <v-icon class="tw-mr-1">upload_file</v-icon>
-              Import</v-btn
-            >
-            <v-btn v-if="!lock" color="primary" @click="lock = true">
-              <v-icon class="tw-mr-1">lock</v-icon>
-              Lock</v-btn
-            >
-            <v-btn v-else color="primary" @click="lock = false">
-              <v-icon class="tw-mr-1">lock_open</v-icon>
-              UnLock</v-btn
-            >
-          </v-btn-group>
           <div
-            class="text-outline tw-flex tw-h-[36px] tw-flex-row tw-items-center tw-gap-4 tw-font-mono tw-text-sm"
+            class="text-outline tw-flex tw-h-[36px] tw-flex-row tw-items-center tw-gap-4 tw-text-sm"
           >
             <span class="text-grey"
-              >Unfinished {{ progress.total - progress.finished }} </span
-            >/ <span class="text-green">Pass {{ passRate.pass }}</span
+              >Unfinished:
+              <span class="tw-font-mono">{{
+                progress.total - progress.finished
+              }}</span> </span
             >/
-            <span class="text-error">Fail {{ passRate.fail }}</span>
+            <span class="text-green"
+              >Pass: <span class="tw-font-mono">{{ passRate.pass }}</span></span
+            >/
+            <span class="text-red"
+              >Fail: <span class="tw-font-mono">{{ passRate.fail }}</span></span
+            >
           </div>
         </div>
+        <v-btn-group variant="text" tile class="pr-4">
+          <v-btn color="primary" @click="confirmCompletion = true">
+            <v-icon class="tw-mr-1">task</v-icon>
+            Complete</v-btn
+          >
+        </v-btn-group>
       </v-app-bar>
       <v-main
         class="scrollbar-transparent border-sm border-primary tw-overflow-y-scroll"
       >
-        <div class="tw-flex tw-flex-col tw-gap-10 tw-px-4 tw-py-8">
+        <div class="tw-flex tw-h-[80vh] tw-flex-col tw-gap-10 tw-px-4 tw-py-8">
           <div v-for="group in tempCases" :key="group.id">
             <div v-if="group.cases.num > 0">
               <span class="subtitle text-primary">{{ group.name }}</span>
@@ -73,21 +122,15 @@
                     @click="toggleHandler(caseItem.id)"
                   >
                     <span>
-                      <v-icon color="grey">keyboard_arrow_down</v-icon>
+                      <v-icon
+                        color="grey"
+                        class="tw-transition"
+                        :class="
+                          opened.includes(caseItem.id) ? 'tw-rotate-180' : ''
+                        "
+                        >keyboard_arrow_down</v-icon
+                      >
                       <span class="tw-mx-2">{{ caseItem.description }}</span>
-                      <span
-                        v-if="caseItem.steps.data.find((item) => !item.result)"
-                        class="text-grey"
-                        ><v-icon color="grey" size="x-small" class="tw-mr-1"
-                          >close</v-icon
-                        >
-                        Unfinished</span
-                      >
-                      <span v-else class="text-green"
-                        ><v-icon color="green" size="x-small" class="tw-mr-2"
-                          >check</v-icon
-                        >Finished</span
-                      >
                     </span>
                     <div
                       class="tw-flex tw-w-[75px] tw-flex-row tw-justify-center tw-gap-2"
@@ -98,8 +141,10 @@
                         variant="outlined"
                         density="compact"
                         :active="isAllPass(caseItem)"
-                        :color="isAllPass(caseItem) ? 'green' : ''"
-                        :readonly="lock"
+                        :color="
+                          isAllPass(caseItem) ? 'green' : 'green-lighten-3'
+                        "
+                        :readonly="status === 'finished'"
                         @click.stop="allPassHandler(caseItem)"
                         ><v-icon>check</v-icon></v-btn
                       >
@@ -109,8 +154,8 @@
                         variant="outlined"
                         density="compact"
                         :active="isAllFail(caseItem)"
-                        :color="isAllFail(caseItem) ? 'error' : ''"
-                        :readonly="lock"
+                        :color="isAllFail(caseItem) ? 'red' : 'red-lighten-3'"
+                        :readonly="status === 'finished'"
                         @click.stop="allFailHandler(caseItem)"
                         ><v-icon>close</v-icon></v-btn
                       >
@@ -150,10 +195,13 @@
                               </p>
                             </td>
                             <td class="p-1">
-                              <div class="tw-h-full tw-w-full">
+                              <div
+                                v-if="status === 'running'"
+                                class="tw-h-full tw-w-full"
+                              >
                                 <v-textarea
                                   v-model="item.actualOutput"
-                                  bg-color="rgba(0,0,0,0.02)"
+                                  bg-color="rgba(0, 0, 0, 0.02)"
                                   variant="solo"
                                   flat
                                   width="auto"
@@ -161,9 +209,11 @@
                                   auto-grow
                                   :rows="4"
                                   class="text-xs"
-                                  :readonly="lock"
                                 ></v-textarea>
                               </div>
+                              <p v-else class="tw-w-full tw-break-words">
+                                {{ item.actualOutput }}
+                              </p>
                             </td>
                             <td class="p-1">
                               <div
@@ -175,8 +225,12 @@
                                   variant="outlined"
                                   density="compact"
                                   :active="item.result === 'pass'"
-                                  :color="item.result === 'pass' ? 'green' : ''"
-                                  :readonly="lock"
+                                  :color="
+                                    item.result === 'pass'
+                                      ? 'green'
+                                      : 'green-lighten-3'
+                                  "
+                                  :readonly="status === 'finished'"
                                   @click="item.result = 'pass'"
                                   ><v-icon>check</v-icon></v-btn
                                 >
@@ -186,8 +240,12 @@
                                   variant="outlined"
                                   density="compact"
                                   :active="item.result === 'fail'"
-                                  :color="item.result === 'fail' ? 'error' : ''"
-                                  :readonly="lock"
+                                  :color="
+                                    item.result === 'fail'
+                                      ? 'red'
+                                      : 'red-lighten-3'
+                                  "
+                                  :readonly="status === 'finished'"
                                   @click="item.result = 'fail'"
                                   ><v-icon>close</v-icon></v-btn
                                 >
@@ -205,21 +263,29 @@
         </div>
       </v-main>
     </v-layout>
+    <dialog-confirm-completion
+      v-model="confirmCompletion"
+      @true="
+        console.log('Complete');
+        confirmCompletion = false;
+      "
+    ></dialog-confirm-completion>
   </div>
 </template>
 <script setup lang="ts">
 definePageMeta({
   title: "Test Run",
-  layout: "run",
+  layout: "project",
 });
 
 const route = useRoute();
 const currentRun = computed(() =>
   getRun(Number(route.params.proID), Number(route.params.runID)),
 );
+const status = computed(() => currentRun.value?.status);
 const tempCases = ref<CaseGroup[]>([]);
 const opened = ref<number[]>([]);
-const lock = ref<boolean>();
+const confirmCompletion = ref(false);
 const stepHeaders: ReadonlyHeaders = [
   {
     key: "order",
@@ -286,15 +352,14 @@ const isAllFail = (caseItem: Case) => {
 onMounted(() => {
   if (currentRun.value) {
     tempCases.value = currentRun.value.plan.list.data;
-    opened.value.push(currentRun.value.plan.list.data[0].cases.data[0].id);
-    lock.value = currentRun.value.status === "finished";
+    // opened.value.push(currentRun.value.plan.list.data[0].cases.data[0].id);
   }
 });
 </script>
 <style scoped lang="scss">
 .label {
   color: rgb(var(--v-theme-primary-lighten-3));
-  width: 140px;
+  width: 125px;
   display: block;
   font-weight: bold;
 }
@@ -302,6 +367,5 @@ onMounted(() => {
 .item {
   display: flex;
   flex-direction: row;
-  align-items: center;
 }
 </style>

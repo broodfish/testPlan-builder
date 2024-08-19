@@ -69,3 +69,11 @@ interface Run {
   configurations: string[];
   plan: Plan;
 }
+
+interface LogData {
+  id: number;
+  time: string;
+  action: "created" | "finished" | "deleted";
+  type: "project" | "plan" | "run";
+  name: string;
+}

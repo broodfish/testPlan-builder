@@ -1,131 +1,142 @@
 <template>
-  <div>
-    <div>
-      <span class="subtitle">information</span>
-      <div class="tw-m-4 tw-grid tw-grid-cols-2 tw-gap-4">
-        <div class="item">
-          <span class="label">Description</span>
-          <span>{{ currentCase?.description }}</span>
+  <v-layout class="tw-h-[calc(100vh_-_96px_-_3.25rem)]">
+    <cases-folder></cases-folder>
+    <v-main>
+      <div class="tw-h-full tw-w-full tw-overflow-y-scroll tw-p-4">
+        <div>
+          <span class="subtitle">information</span>
+          <div class="tw-m-4 tw-grid tw-grid-cols-2 tw-gap-4">
+            <div class="item">
+              <span class="label">Description</span>
+              <span>{{ currentCase?.description }}</span>
+            </div>
+            <div class="item">
+              <span class="label">Case ID</span>
+              <span>{{ currentCase?.id }}</span>
+            </div>
+            <div class="item">
+              <span class="label">Team Suite</span>
+              <span>{{ currentSuite?.name }}</span>
+            </div>
+            <div class="item">
+              <span class="label">Priority</span>
+              <span>{{ currentCase?.priority }}</span>
+            </div>
+            <div class="item">
+              <span class="label">Prerequisite</span>
+              <span>{{ currentCase?.prerequisite ?? "-" }}</span>
+            </div>
+          </div>
         </div>
-        <div class="item">
-          <span class="label">Case ID</span>
-          <span>{{ currentCase?.id }}</span>
-        </div>
-        <div class="item">
-          <span class="label">Team Suite</span>
-          <span>{{ currentSuite?.name }}</span>
-        </div>
-        <div class="item">
-          <span class="label">Priority</span>
-          <span>{{ currentCase?.priority }}</span>
-        </div>
-        <div class="item">
-          <span class="label">Prerequisite</span>
-          <span>{{ currentCase?.prerequisite ?? "-" }}</span>
+        <div class="tw-mt-12">
+          <div class="tw-flex tw-h-[36px] tw-flex-row tw-justify-between">
+            <span class="subtitle tw-mb-4">Execution Steps</span>
+            <v-btn
+              v-if="!editing"
+              color="primary"
+              prepend-icon="edit"
+              variant="tonal"
+              @click="editing = true"
+              >Edit</v-btn
+            >
+          </div>
+          <v-data-table-virtual
+            :items="tempCase?.steps.data"
+            :headers="headers"
+          >
+            <template #item="{ index }">
+              <tr>
+                <td class="text-grey">{{ index + 1 }}</td>
+                <td>
+                  <div
+                    class="tw-h-full tw-w-full"
+                    :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
+                  >
+                    <v-textarea
+                      v-model="tempCase!.steps.data[index].action"
+                      variant="solo"
+                      flat
+                      tile
+                      width="auto"
+                      :readonly="!editing"
+                      no-resize
+                      auto-grow
+                      :rows="1"
+                      bg-color="transparent"
+                      class="text-xs"
+                    ></v-textarea>
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="tw-h-full tw-w-full"
+                    :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
+                  >
+                    <v-textarea
+                      v-model="tempCase!.steps.data[index].inputs"
+                      variant="solo"
+                      flat
+                      tile
+                      width="auto"
+                      :readonly="!editing"
+                      no-resize
+                      auto-grow
+                      :rows="1"
+                      bg-color="transparent"
+                      class="text-xs"
+                    ></v-textarea>
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="tw-h-full tw-w-full"
+                    :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
+                  >
+                    <v-textarea
+                      v-model="tempCase!.steps.data[index].expectedOutput"
+                      variant="solo"
+                      flat
+                      tile
+                      width="auto"
+                      :readonly="!editing"
+                      no-resize
+                      auto-grow
+                      :rows="1"
+                      bg-color="transparent"
+                      class="text-xs"
+                    ></v-textarea>
+                  </div>
+                </td>
+                <td>
+                  <v-btn
+                    v-if="editing"
+                    icon
+                    variant="text"
+                    size="small"
+                    color="error"
+                    @click="tempCase?.steps.data.splice(index, 1)"
+                    ><v-icon>delete</v-icon></v-btn
+                  >
+                </td>
+              </tr>
+            </template>
+          </v-data-table-virtual>
+          <div v-if="editing" class="tw-mt-4 tw-flex tw-justify-between">
+            <v-btn color="tertiary" variant="text" @click="addHandler">
+              <v-icon>add</v-icon>
+              New Step</v-btn
+            >
+            <v-btn color="primary" @click="updateHandler">Save</v-btn>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="tw-mt-12">
-      <div class="tw-flex tw-h-[36px] tw-flex-row tw-justify-between">
-        <span class="subtitle tw-mb-4">Execution Steps</span>
-        <v-btn
-          v-if="!editing"
-          color="primary"
-          prepend-icon="edit"
-          variant="tonal"
-          @click="editing = true"
-          >Edit</v-btn
-        >
-      </div>
-      <v-data-table-virtual :items="tempCase?.steps.data" :headers="headers">
-        <template #item="{ index }">
-          <tr>
-            <td class="text-grey">{{ index + 1 }}</td>
-            <td>
-              <div
-                class="tw-h-full tw-w-full"
-                :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
-              >
-                <v-textarea
-                  v-model="tempCase!.steps.data[index].action"
-                  variant="solo"
-                  flat
-                  tile
-                  width="auto"
-                  :readonly="!editing"
-                  no-resize
-                  auto-grow
-                  :rows="1"
-                  bg-color="transparent"
-                ></v-textarea>
-              </div>
-            </td>
-            <td>
-              <div
-                class="tw-h-full tw-w-full"
-                :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
-              >
-                <v-textarea
-                  v-model="tempCase!.steps.data[index].inputs"
-                  variant="solo"
-                  flat
-                  tile
-                  width="auto"
-                  :readonly="!editing"
-                  no-resize
-                  auto-grow
-                  :rows="1"
-                  bg-color="transparent"
-                ></v-textarea>
-              </div>
-            </td>
-            <td>
-              <div
-                class="tw-h-full tw-w-full"
-                :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
-              >
-                <v-textarea
-                  v-model="tempCase!.steps.data[index].expectedOutput"
-                  variant="solo"
-                  flat
-                  tile
-                  width="auto"
-                  :readonly="!editing"
-                  no-resize
-                  auto-grow
-                  :rows="1"
-                  bg-color="transparent"
-                ></v-textarea>
-              </div>
-            </td>
-            <td>
-              <v-btn
-                v-if="editing"
-                icon
-                variant="text"
-                size="small"
-                color="error"
-                @click="tempCase?.steps.data.splice(index, 1)"
-                ><v-icon>delete</v-icon></v-btn
-              >
-            </td>
-          </tr>
-        </template>
-      </v-data-table-virtual>
-      <div v-if="editing" class="tw-mt-4 tw-flex tw-justify-between">
-        <v-btn color="tertiary" variant="text" @click="addHandler">
-          <v-icon>add</v-icon>
-          New Step</v-btn
-        >
-        <v-btn color="primary" @click="updateHandler">Save</v-btn>
-      </div>
-    </div>
-  </div>
+    </v-main>
+  </v-layout>
 </template>
 <script setup lang="ts">
 definePageMeta({
   title: "Test Case",
-  layout: "case",
+  layout: "project",
 });
 
 const route = useRoute();

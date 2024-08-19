@@ -7,11 +7,44 @@
           <template #title> TIMELINE </template>
           <template #content>
             <div class="tw-flex">
-              <v-timeline side="end">
-                <v-timeline-item dot-color="tertiaryContainer" size="x-small">
-                  <div class="tw-font-bold">2019/10/13 12:32</div>
-                  <div class="text-secondary tw-indent-4">
-                    Create a new project "ZCP-Web"
+              <v-timeline side="end" density="compact">
+                <v-timeline-item
+                  v-for="log in logs.reverse().slice(0, 5)"
+                  :key="log.id"
+                  dot-color="tertiaryContainer"
+                  size="x-small"
+                >
+                  <div
+                    class="rounded tw-p-2 tw-text-sm hover:tw-bg-[rgba(var(--v-theme-tertiaryContainer),0.2)]"
+                  >
+                    <span class="tw-font-bold">{{ log.time }}</span>
+                    <span
+                      v-if="log.action === 'created'"
+                      class="text-secondary tw-indent-4"
+                    >
+                      Created a new test {{ log.type }}
+                      <span class="text-tertiary tw-font-seemibold"
+                        >"{{ log.name }}"</span
+                      >
+                    </span>
+                    <span
+                      v-else-if="log.action === 'deleted'"
+                      class="text-secondary tw-indent-4"
+                    >
+                      Deleted a test {{ log.type }}
+                      <span class="text-tertiary tw-font-seemibold"
+                        >"{{ log.name }}"</span
+                      >
+                    </span>
+                    <span
+                      v-else-if="log.action === 'finished'"
+                      class="text-secondary tw-indent-4"
+                    >
+                      Finished a test {{ log.type }}
+                      <span class="text-tertiary tw-font-seemibold"
+                        >"{{ log.name }}"</span
+                      >
+                    </span>
                   </div>
                 </v-timeline-item>
               </v-timeline>
@@ -19,41 +52,45 @@
           </template>
         </base-card>
         <base-card>
-          <template #title> MOST RECENT RESULT </template>
+          <template #title> RECENT TEST PLANS </template>
           <template #content>
-            <div
-              class="tw-flex tw-h-[200px] tw-flex-row tw-items-center tw-gap-4"
+            <v-data-table
+              :headers="planHeaders"
+              :items="
+                getPlans(Number(route.params.proID))?.reverse().slice(0, 5)
+              "
             >
-              <div class="tw-h-[200px] tw-w-[200px]">
-                <chart-pie :data="pieChartData" :options="pieChartOptions" />
-              </div>
-              <div
-                class="tw-mr-4 tw-grid tw-grid-flow-col tw-grid-rows-2 tw-gap-10"
-              >
-                <div class="info">
-                  <div class="info-title">Pass Rate</div>
-                  <div class="info-content text-blue">95%</div>
-                </div>
-                <div class="info">
-                  <div class="info-title">Growth Rate</div>
-                  <div class="info-content">-5%</div>
-                </div>
-              </div>
-            </div>
+              <template #item="{ item }">
+                <tr
+                  v-ripple
+                  class="hover:tw-cursor-pointer"
+                  @click="
+                    navigateTo(`/${route.params.proID}/testPlans/${item.id}`)
+                  "
+                >
+                  <td>{{ item.title }}</td>
+                  <td>{{ item.description }}</td>
+                </tr>
+              </template>
+              <template #bottom></template>
+            </v-data-table>
+            <v-btn
+              variant="text"
+              color="tertiary"
+              @click="navigateTo(`/${route.params.proID}/testPlans`)"
+              ><v-icon class="tw-mr-2">more_horiz</v-icon>More Test Plans</v-btn
+            >
           </template>
         </base-card>
       </div>
       <base-card>
         <template #title>
-          <div
-            class="tw-h-full tw-w-full tw-cursor-pointer"
-            @click="navigateTo(`/${route.params.proID}/testRuns`)"
-          >
+          <div class="tw-h-full tw-w-full tw-cursor-pointer">
             RECENT RESULTS
           </div>
         </template>
         <template #content>
-          <v-data-table :headers="headers" :items="recentRuns">
+          <v-data-table :headers="runHeaders" :items="recentRuns">
             <template #item="{ item }">
               <tr
                 class="hover:tw-cursor-pointer"
@@ -77,6 +114,12 @@
             </template>
             <template #bottom></template>
           </v-data-table>
+          <v-btn
+            variant="text"
+            color="tertiary"
+            @click="navigateTo(`/${route.params.proID}/testRuns`)"
+            ><v-icon class="tw-mr-2">more_horiz</v-icon>More Test Runs</v-btn
+          >
         </template>
       </base-card>
     </div>
@@ -90,7 +133,7 @@ definePageMeta({
 
 const route = useRoute();
 
-const headers: ReadonlyHeaders = [
+const runHeaders: ReadonlyHeaders = [
   {
     title: "Title",
     value: "title",
@@ -113,46 +156,18 @@ const headers: ReadonlyHeaders = [
     width: "100",
   },
 ];
+const planHeaders: ReadonlyHeaders = [
+  {
+    title: "Title",
+    value: "title",
+  },
+  {
+    title: "Description",
+    value: "description",
+  },
+];
 
 const recentRuns = computed(() => getFinishedRuns(Number(route.params.proID)));
-
-const pieChartData = {
-  labels: ["Pass", "Fail"],
-  datasets: [
-    {
-      data: [95, 5],
-      backgroundColor: ["#D7E2FF", "#FF897D"],
-      hoverOffset: 2,
-    },
-  ],
-};
-
-const pieChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  layout: {
-    padding: 20,
-  },
-  plugins: {
-    tooltip: {
-      enabled: false,
-    },
-    legend: {
-      display: false,
-    },
-    datalabels: {
-      formatter: (_: number, context: ChartDatalabelsContext) => {
-        return context.chart.data.labels?.[context.dataIndex];
-      },
-      color: ["#2E4673", "#BA1A1A"],
-      align: "end",
-      anchor: "start",
-      clamp: true,
-      padding: 5,
-      offset: 80,
-    },
-  },
-};
 </script>
 <style scoped lang="scss">
 .info {
