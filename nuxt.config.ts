@@ -18,6 +18,7 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }));
       });
     },
+    "@pinia/nuxt",
   ],
   typescript: {
     typeCheck: true,
@@ -29,4 +30,5 @@ export default defineNuxtConfig({
       },
     },
   },
+  compatibilityDate: "2024-08-19",
 });
