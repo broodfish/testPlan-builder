@@ -1,25 +1,8 @@
-html {
-  font-family: "Roboto", sans-serif;
+.v-data-table-footer {
+  border-top: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
-
-.v-table {
-  background: transparent !important;
-}
-
-.v-card-title {
-  padding: 1.5rem 1.5rem !important;
-}
-
-.v-card-text {
-  padding: 0.5rem 2.5rem !important;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.v-card-actions {
-  justify-content: center !important;
-  padding: 1.5rem 1rem !important;
+.v-table__wrapper {
+  border-radius: unset !important;
 }
 
 .page-enter-active,
@@ -29,46 +12,7 @@ html {
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
-}
-
-.subtitle {
-  color: grey;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.text-btn {
-  text-transform: initial !important;
-  padding: 0.25rem 1rem !important;
-  font-weight: normal !important;
-  letter-spacing: 0 !important;
-  min-height: 40px;
-}
-
-.p-0 {
-  padding: 0 !important;
-}
-.p-1 {
-  padding: 0.25rem !important;
-}
-
-.text-xs {
-  font-size: 0.75rem !important /* 12px */;
-  line-height: 1rem !important /* 16px */;
-
-  > .v-input__control {
-    > .v-field {
-      > .v-field__field {
-        textarea {
-          font-size: 0.75rem !important /* 12px */;
-          line-height: 1rem !important /* 16px */;
-        }
-      }
-    }
-  }
+  filter: blur(1rem);
 }
 
 .hide-scrollbar {
@@ -88,4 +32,12 @@ html {
   &::-webkit-scrollbar-thumb {
     background: rgba(var(--v-theme-primary), 0.1);
   }
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.0125em;
+  padding: 1rem 1.5rem;
 }

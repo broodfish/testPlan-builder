@@ -1,12 +1,21 @@
 <template>
   <v-app>
-    <layouts-default-app-bar></layouts-default-app-bar>
+    <default-app-bar></default-app-bar>
     <v-main>
-      <div class="tw-flex tw-h-full tw-justify-center tw-px-8 tw-pb-9 tw-pt-4">
-        <div class="tw-max-w-[1080px] tw-grow">
+      <div class="tw-max-h-[calc(100vh_-_64px)]">
+        <default-header></default-header>
+        <div
+          class="tw-flex tw-flex-col tw-gap-[30px] tw-px-[60px] tw-py-[40px]"
+        >
           <slot></slot>
         </div>
       </div>
     </v-main>
+    <!-- <div
+      class="tw-fixed tw-bottom-0 tw-flex tw-w-full tw-flex-col tw-items-center tw-justify-center"
+    >
+      <p class="text-grey tw-mb-2">Let's me see see!</p>
+      <svg-bear></svg-bear>
+    </div> -->
   </v-app>
 </template>

@@ -1,7 +1,13 @@
 <template>
   <v-menu activator="parent">
     <template #activator="{ props }">
-      <v-btn icon variant="plain" width="20" :ripple="false" v-bind="props"
+      <v-btn
+        icon
+        color="secondary"
+        variant="plain"
+        width="20"
+        :ripple="false"
+        v-bind="props"
         ><v-icon>more_vert</v-icon>
       </v-btn>
     </template>

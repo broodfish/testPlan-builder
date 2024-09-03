@@ -131,7 +131,6 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Test Cases",
-  layout: "project",
 });
 
 const route = useRoute();
