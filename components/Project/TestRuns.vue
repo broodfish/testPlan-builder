@@ -1,66 +1,47 @@
 <template>
-  <custom-card title="Test Runs">
-    <template #content>
-      <div>
-        <span class="subtitle text-error">Running</span>
-        <v-data-table :items="running" :headers="runningHeaders">
-          <template #item="{ item }">
-            <tr
-              v-ripple
-              class="hover:tw-cursor-pointer hover:tw-bg-[rgba(0,0,0,0.04)]"
-              @click="navigateTo(`/${route.params.proID}/${item.id}`)"
-            >
-              <td>{{ item.id }}</td>
-              <td>{{ item.title }}</td>
-              <td class="tw-text-center">{{ item.createdTime }}</td>
-              <td class="tw-text-center">
-                <v-progress-linear
-                  :model-value="calcProgress(item.plan.list.data).progress"
-                  height="15"
-                  color="green"
-                >
-                  <template #default>
-                    <span class="tw-text-xs"
-                      >{{ calcProgress(item.plan.list.data).progress }}%</span
-                    >
-                  </template>
-                </v-progress-linear>
-              </td>
-            </tr>
-          </template>
-        </v-data-table>
-      </div>
-      <div class="tw-mt-12">
-        <span class="subtitle text-green">Finished</span>
-        <v-data-table :items="finished" :headers="finishedHeaders">
-          <template #item="{ item }">
-            <tr
-              v-ripple
-              class="hover:tw-cursor-pointer hover:tw-bg-[rgba(0,0,0,0.04)]"
-              @click="navigateTo(`/${route.params.proID}/testRuns/${item.id}`)"
-            >
-              <td>{{ item.id }}</td>
-              <td>{{ item.title }}</td>
-              <td class="tw-text-center">{{ item.createdTime }}</td>
-              <td class="tw-text-center">
-                {{ item.finishedTime }}
-              </td>
-              <td class="tw-text-center">
-                {{ calcPassRate(item.plan.list.data).passRate }}%
-              </td>
-            </tr>
-          </template>
-        </v-data-table>
-      </div>
+  <v-data-table :items="running" :headers="runningHeaders">
+    <template #item="{ item }">
+      <v-hover>
+        <template #default="{ isHovering, props }">
+          <tr
+            v-ripple="{ class: 'text-ripple' }"
+            v-bind="props"
+            class="cursor-pointer"
+            :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
+            @click="navigateTo(`/${route.params.proID}/${item.id}`)"
+          >
+            <td>{{ item.title }}</td>
+            <td class="tw-text-center">{{ item.createdTime }}</td>
+            <td class="tw-text-center">
+              <v-progress-linear
+                :model-value="calcProgress(item.plan.list.data).progress"
+                height="15"
+                color="green"
+              >
+                <template #default>
+                  <span class="tw-text-xs"
+                    >{{ calcProgress(item.plan.list.data).progress }}%</span
+                  >
+                </template>
+              </v-progress-linear>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><menu-actions></menu-actions></td>
+          </tr>
+        </template>
+      </v-hover>
     </template>
-  </custom-card>
+    <template #top>
+      <div class="card-title border-b">Test Runs</div>
+    </template>
+  </v-data-table>
 </template>
 <script setup lang="ts">
 const route = useRoute();
 const running = computed(() => getRunningRuns(Number(route.params.proID)));
-const finished = computed(() => getFinishedRuns(Number(route.params.proID)));
 const runningHeaders: ReadonlyHeaders = [
-  { title: "ID", value: "id", width: "60" },
   { title: "Test Plan", value: "title" },
   {
     title: "Created Time",
@@ -68,28 +49,14 @@ const runningHeaders: ReadonlyHeaders = [
     width: "200",
     align: "center",
   },
-  { title: "Progress", value: "progress", align: "center" },
-];
-
-const finishedHeaders: ReadonlyHeaders = [
-  { title: "ID", value: "id", width: "60" },
-  { title: "Test Plan", value: "title" },
+  { title: "Progress", value: "progress", align: "center", width: "150" },
+  { title: "Pass", value: "pass", align: "center", width: "100" },
+  { title: "Fail", value: "fail", align: "center", width: "100" },
+  { title: "Pass Rate", key: "passRate", align: "center", width: "120" },
   {
-    title: "Created Time",
-    value: "createdTime",
-    width: "200",
-    align: "center",
-  },
-  {
-    title: "Finished Time",
-    value: "finishedTime",
-    width: "200",
-    align: "center",
-  },
-  {
-    title: "Pass Rate",
-    align: "center",
-    width: "100",
+    key: "options",
+    width: "44",
+    sortable: false,
   },
 ];
 </script>
