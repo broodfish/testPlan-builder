@@ -14,26 +14,23 @@
               :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
               @click="navigateTo(`/${route.params.proID}/${item.id}`)"
             >
-              <td>{{ item.id }}</td>
               <td>
-                <div class="tw-flex tw-flex-col">
-                  <span>{{ item.title }}</span>
-                  <span class="text-secondary">{{ item.description }}</span>
-                </div>
+                {{ item.title }}
               </td>
+              <td></td>
+              <td class="text-center">{{ item.list.num }}</td>
               <td v-ripple.stop @click.stop>
                 <v-btn
-                  icon
+                  icon="play_arrow"
                   size="x-small"
-                  rounded
+                  variant="tonal"
                   @click.prevent="
                     () => {
                       newRunData = item;
                       creating = true;
                     }
                   "
-                  ><v-icon>play_arrow</v-icon></v-btn
-                >
+                ></v-btn>
               </td>
               <td v-ripple.stop @click.stop>
                 <menu-actions
@@ -106,13 +103,21 @@ const newRunData = ref<Plan>({
 
 const headers: ReadonlyHeaders = [
   {
-    title: "ID",
-    value: "id",
-    width: "60",
-  },
-  {
     title: "Title",
     value: "title",
+  },
+  {
+    title: "Created Time",
+    value: "createdTime",
+    width: "140",
+    align: "center",
+  },
+  {
+    title: "Test Cases",
+    value: "list.num",
+    width: "120",
+    align: "center",
+    sortable: false,
   },
   {
     title: "Run",
