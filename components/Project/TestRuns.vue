@@ -8,7 +8,9 @@
             v-bind="props"
             class="cursor-pointer"
             :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
-            @click="navigateTo(`/${route.params.proID}/${item.id}`)"
+            @click="
+              navigateTo(`/project-${route.params.projectID}/run-${item.id}`)
+            "
           >
             <td>{{ item.title }}</td>
             <td class="tw-text-center">{{ item.createdTime }}</td>
@@ -40,7 +42,7 @@
 </template>
 <script setup lang="ts">
 const route = useRoute();
-const running = computed(() => getRunningRuns(Number(route.params.proID)));
+const running = computed(() => getRunningRuns(Number(route.params.projectID)));
 const runningHeaders: ReadonlyHeaders = [
   { title: "Test Plan", value: "title" },
   {

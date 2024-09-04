@@ -43,7 +43,7 @@ const newRunData = ref<Plan>({
 });
 
 const testCases = computed(() =>
-  getCases(Number(route.params.proID), Number(route.params.planID)),
+  getCases(Number(route.params.projectID), Number(route.params.planID)),
 );
 </script>
 <style scoped lang="scss"></style>

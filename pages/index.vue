@@ -29,7 +29,7 @@
             v-bind="props"
             class="cursor-pointer"
             :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
-            @click="navigateTo(`/${item.id}`), (store.tab = null)"
+            @click="navigateTo(`/project-${item.id}`), (store.tab = null)"
           >
             <td>{{ item.name }}</td>
           </tr>

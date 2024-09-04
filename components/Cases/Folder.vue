@@ -54,7 +54,7 @@
               @click="
                 !isSelected &&
                   navigateTo(
-                    `/${route.params.proID}/testPlans/${route.params.planID}/${group.id}/${caseItem.id}`,
+                    `/project-${route.params.projectID}/plan-${route.params.planID}/case-${group.id}-${caseItem.id}`,
                   )
               "
             >
@@ -89,13 +89,13 @@
 const route = useRoute();
 
 const currentPlan = computed(() =>
-  getPlan(Number(route.params.proID), Number(route.params.planID)),
+  getPlan(Number(route.params.projectID), Number(route.params.planID)),
 );
 const openedSuite = ref<number[]>([]);
 
 onMounted(() => {
   const currentSuite = getSuite(
-    Number(route.params.proID),
+    Number(route.params.projectID),
     Number(route.params.planID),
     Number(route.params.groupID),
   );

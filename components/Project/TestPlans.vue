@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="getPlans(Number(route.params.proID))"
+      :items="getPlans(Number(route.params.projectID))"
     >
       <template #item="{ item }">
         <v-hover>
@@ -12,7 +12,9 @@
               v-bind="props"
               class="cursor-pointer"
               :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
-              @click="navigateTo(`/${route.params.proID}/${item.id}`)"
+              @click="
+                navigateTo(`/project-${route.params.projectID}/plan-${item.id}`)
+              "
             >
               <td>
                 {{ item.title }}

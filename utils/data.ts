@@ -2,29 +2,29 @@ export const getProjectName = (id: number) => {
   return data.find((project) => project.id === id)?.name;
 };
 
-export const getPlan = (proID: number, planID: number) => {
+export const getPlan = (projectID: number, planID: number) => {
   return data
-    .find((project) => project.id === proID)
+    .find((project) => project.id === projectID)
     ?.plans.data.find((plan) => plan.id === planID);
 };
 
-export const getPlans = (proID: number) => {
-  return data.find((project) => project.id === proID)?.plans.data;
+export const getPlans = (projectID: number) => {
+  return data.find((project) => project.id === projectID)?.plans.data;
 };
 
-export const getRunTitle = (proID: number, runID: number) => {
+export const getRunTitle = (projectID: number, runID: number) => {
   return data
-    .find((project) => project.id === proID)
+    .find((project) => project.id === projectID)
     ?.runs.data.find((run) => run.id === runID)?.title;
 };
 
 export const getCase = (
-  proID: number,
+  projectID: number,
   planID: number,
   groupID: number,
   caseID: number,
 ) => {
-  const project = data.find((project) => project.id === proID);
+  const project = data.find((project) => project.id === projectID);
   const plan = project?.plans.data.find((plan) => plan.id === planID);
   const group = plan?.list.data.find((group) => group.id === groupID);
   const targetCase = group?.cases.data.find((c) => c.id === caseID);
@@ -32,35 +32,39 @@ export const getCase = (
   return targetCase;
 };
 
-export const getCases = (proID: number, planID: number) => {
-  const project = data.find((project) => project.id === proID);
+export const getCases = (projectID: number, planID: number) => {
+  const project = data.find((project) => project.id === projectID);
   const plan = project?.plans.data.find((plan) => plan.id === planID);
 
   return plan?.list.data;
 };
 
-export const getSuite = (proID: number, planID: number, groupID: number) => {
-  const project = data.find((project) => project.id === proID);
+export const getSuite = (
+  projectID: number,
+  planID: number,
+  groupID: number,
+) => {
+  const project = data.find((project) => project.id === projectID);
   const plan = project?.plans.data.find((plan) => plan.id === planID);
   const targetCase = plan?.list?.data.find((g) => g.id === groupID);
 
   return targetCase;
 };
 
-export const getExistedSuites = (proID: number, planID: number) => {
-  const project = data.find((project) => project.id === proID);
+export const getExistedSuites = (projectID: number, planID: number) => {
+  const project = data.find((project) => project.id === projectID);
   const plan = project?.plans.data.find((plan) => plan.id === planID);
 
   return plan?.list.data.map((c) => c.name);
 };
 
-export const getRunningRuns = (proID: number) => {
-  const project = data.find((project) => project.id === proID);
+export const getRunningRuns = (projectID: number) => {
+  const project = data.find((project) => project.id === projectID);
   return project?.runs.data.filter((run) => run.status === "running");
 };
 
-export const getFinishedRuns = (proID: number) => {
-  const project = data.find((project) => project.id === proID);
+export const getFinishedRuns = (projectID: number) => {
+  const project = data.find((project) => project.id === projectID);
   return project?.runs.data.filter((run) => run.status === "finished");
 };
 
@@ -85,8 +89,8 @@ export const calcPassRate = (groups: CaseGroup[]) => {
   };
 };
 
-export const getRun = (proID: number, runID: number) => {
-  const project = data.find((project) => project.id === proID);
+export const getRun = (projectID: number, runID: number) => {
+  const project = data.find((project) => project.id === projectID);
   return project?.runs.data.find((run) => run.id === runID);
 };
 

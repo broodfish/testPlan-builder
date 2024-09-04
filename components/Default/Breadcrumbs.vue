@@ -46,34 +46,37 @@
 const route = useRoute();
 const breadcrumbs = computed(() => {
   const temp = [{ name: "Home", path: "/" }];
-  const proID = Number(route.params.proID);
+  const projectID = Number(route.params.projectID);
   const planID = Number(route.params.planID);
   const runID = Number(route.params.runID);
   const groupID = Number(route.params.groupID);
   const caseID = Number(route.params.caseID);
 
-  if (proID) {
-    temp.push({ name: getProjectName(proID)!, path: `/${proID}` });
+  if (projectID) {
+    temp.push({
+      name: getProjectName(projectID)!,
+      path: `/project-${projectID}`,
+    });
   }
 
   if (planID) {
     temp.push({
-      name: getPlan(proID, planID)!.title,
-      path: `/${proID}/${planID}`,
+      name: getPlan(projectID, planID)!.title,
+      path: `/project-${projectID}/plan-${planID}`,
     });
   }
 
   if (runID) {
     temp.push({
-      name: getRun(proID, runID)!.title,
-      path: `/${proID}/${runID}`,
+      name: getRun(projectID, runID)!.title,
+      path: `/project-${projectID}/run-${runID}`,
     });
   }
 
   if (groupID && caseID) {
     temp.push({
-      name: getCase(proID, planID, groupID, caseID)!.description,
-      path: `/${proID}/${planID}/${groupID}/${caseID}`,
+      name: getCase(projectID, planID, groupID, caseID)!.description,
+      path: `/project-${projectID}/plan-${planID}/case-${groupID}-${caseID}`,
     });
   }
 

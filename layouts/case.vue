@@ -13,7 +13,7 @@
                 class="text-primary tw-cursor-pointer tw-font-bold hover:tw-underline"
                 @click="
                   navigateTo(
-                    `/${route.params.proID}/testPlans/${route.params.planID}`,
+                    `/project-${route.params.projectID}/plan-${route.params.planID}`,
                   )
                 "
                 >Test Case</span
@@ -39,10 +39,10 @@ const expand = ref(true);
 const route = useRoute();
 
 const currentCase = computed(() => {
-  const proID = Number(route.params.proID);
+  const projectID = Number(route.params.projectID);
   const planID = Number(route.params.planID);
   const groupID = Number(route.params.groupID);
   const caseID = Number(route.params.caseID);
-  return getCase(proID, planID, groupID, caseID);
+  return getCase(projectID, planID, groupID, caseID);
 });
 </script>

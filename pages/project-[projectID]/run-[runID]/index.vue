@@ -275,12 +275,11 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Test Run",
-  layout: "project",
 });
 
 const route = useRoute();
 const currentRun = computed(() =>
-  getRun(Number(route.params.proID), Number(route.params.runID)),
+  getRun(Number(route.params.projectID), Number(route.params.runID)),
 );
 const status = computed(() => currentRun.value?.status);
 const tempCases = ref<CaseGroup[]>([]);

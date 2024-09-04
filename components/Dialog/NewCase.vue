@@ -7,7 +7,7 @@
         <v-combobox
           :items="
             getExistedSuites(
-              Number(route.params.proID),
+              Number(route.params.projectID),
               Number(route.params.planID),
             )
           "

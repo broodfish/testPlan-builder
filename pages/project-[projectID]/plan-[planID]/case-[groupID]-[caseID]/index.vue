@@ -136,24 +136,23 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Test Case",
-  layout: "project",
 });
 
 const route = useRoute();
 
 const currentCase = computed(() => {
-  const proID = Number(route.params.proID);
+  const projectID = Number(route.params.projectID);
   const planID = Number(route.params.planID);
   const groupID = Number(route.params.groupID);
   const caseID = Number(route.params.caseID);
-  return getCase(proID, planID, groupID, caseID);
+  return getCase(projectID, planID, groupID, caseID);
 });
 
 const currentSuite = computed(() => {
-  const proID = Number(route.params.proID);
+  const projectID = Number(route.params.projectID);
   const planID = Number(route.params.planID);
   const groupID = Number(route.params.groupID);
-  return getSuite(proID, planID, groupID);
+  return getSuite(projectID, planID, groupID);
 });
 
 const tempCase = ref<Case | undefined>(undefined);
