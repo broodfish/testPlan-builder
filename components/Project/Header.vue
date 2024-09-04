@@ -1,6 +1,6 @@
 <template>
   <div
-    class="header border-b tw-flex tw-flex-col tw-gap-4 tw-px-12 tw-py-[10px]"
+    class="header border-b border-secondary tw-flex tw-flex-col tw-gap-4 tw-px-12 tw-py-[10px]"
   >
     <default-breadcrumbs></default-breadcrumbs>
     <v-tabs v-model="store.tab" density="compact" class="ml-4">

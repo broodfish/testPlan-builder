@@ -28,7 +28,7 @@
     </v-hover>
     <v-expand-transition>
       <div v-show="isExpanded">
-        <v-table class="border-none px-4 py-3">
+        <v-table class="border-none px-4 py-3 border-primary">
           <thead>
             <tr>
               <th class="tw-flex-1">Case Name</th>

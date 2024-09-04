@@ -1,5 +1,7 @@
 <template>
-  <div class="header border-b tw-flex tw-flex-col tw-px-12 tw-py-[10px]">
+  <div
+    class="header border-b border-secondary tw-flex tw-flex-col tw-px-12 tw-py-[10px]"
+  >
     <default-breadcrumbs></default-breadcrumbs>
   </div>
 </template>
