@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :items="running" :headers="runningHeaders">
+  <v-data-table :items="runs" :headers="headers">
     <template #item="{ item }">
       <v-hover>
         <template #default="{ isHovering, props }">
@@ -12,17 +12,17 @@
               navigateTo(`/project-${route.params.projectID}/run-${item.id}`)
             "
           >
-            <td>{{ item.title }}</td>
+            <td>{{ item.name }}</td>
             <td class="tw-text-center">{{ item.createdTime }}</td>
             <td class="tw-text-center">
               <v-progress-linear
-                :model-value="calcProgress(item.plan.list.data).progress"
+                :model-value="calcProgress(item.plan.cases.data).progress"
                 height="15"
                 color="green"
               >
                 <template #default>
                   <span class="tw-text-xs"
-                    >{{ calcProgress(item.plan.list.data).progress }}%</span
+                    >{{ calcProgress(item.plan.cases.data).progress }}%</span
                   >
                 </template>
               </v-progress-linear>
@@ -42,8 +42,8 @@
 </template>
 <script setup lang="ts">
 const route = useRoute();
-const running = computed(() => getRunningRuns(Number(route.params.projectID)));
-const runningHeaders: ReadonlyHeaders = [
+const runs = computed(() => getRuns(Number(route.params.projectID)));
+const headers: ReadonlyHeaders = [
   { title: "Test Plan", value: "title" },
   {
     title: "Created Time",

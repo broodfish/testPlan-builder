@@ -17,10 +17,10 @@
               "
             >
               <td>
-                {{ item.title }}
+                {{ item.name }}
               </td>
               <td></td>
-              <td class="text-center">{{ item.list.num }}</td>
+              <td class="text-center">{{ item.cases.totalCases }}</td>
               <td v-ripple.stop @click.stop>
                 <v-btn
                   icon="play_arrow"
@@ -84,21 +84,21 @@ const creating = ref(false);
 const deleting = ref(false);
 const edittedPlan = ref<Plan>({
   id: -1,
-  title: "",
-  description: "",
+  name: "",
   createdTime: "",
-  list: {
-    num: 0,
+  cases: {
+    totalCases: 0,
+    totalSuites: 0,
     data: [],
   },
 });
 const newRunData = ref<Plan>({
   id: -1,
-  title: "",
-  description: "",
+  name: "",
   createdTime: "",
-  list: {
-    num: 0,
+  cases: {
+    totalCases: 0,
+    totalSuites: 0,
     data: [],
   },
 });

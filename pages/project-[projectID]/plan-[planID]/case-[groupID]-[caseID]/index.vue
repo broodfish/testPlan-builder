@@ -3,7 +3,7 @@
     <custom-card
       :title="
         getPlan(Number(route.params.projectID), Number(route.params.planID))!
-          .title
+          .name
       "
       no-padding
     >
@@ -107,7 +107,6 @@ const currentCase = computed(() => {
 });
 
 const isNoChanged = computed(() => {
-  console.log(tempCase.value, currentCase.value);
   return JSON.stringify(tempCase.value) === JSON.stringify(currentCase.value);
 });
 
@@ -117,8 +116,9 @@ const addHandler = () => {
   tempCase.value?.steps.data.push({
     id: -1,
     action: "",
-    inputs: "",
     expectedOutput: "",
+    result: null,
+    comment: null,
   });
 };
 const updateHandler = () => {

@@ -7,7 +7,7 @@
     class="px-2 tw-text-sm"
   >
     <v-list-group
-      v-for="group in currentPlan?.list.data"
+      v-for="group in currentPlan?.cases.data"
       :key="group.id"
       :value="group.id"
     >
@@ -39,7 +39,7 @@
         </v-list-item>
       </template>
       <v-list-item
-        v-for="caseItem in group.cases.data"
+        v-for="caseItem in group.list.data"
         :key="caseItem.id"
         :value="caseItem.id"
         color="primary"
@@ -55,9 +55,9 @@
                 )
             "
           >
-            {{ caseItem.description }}
+            {{ caseItem.name }}
             <v-tooltip activator="parent" location="end">{{
-              caseItem.description
+              caseItem.name
             }}</v-tooltip>
           </span>
         </template>

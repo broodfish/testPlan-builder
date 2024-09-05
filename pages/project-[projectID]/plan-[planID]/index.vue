@@ -7,7 +7,7 @@
             v-for="(group, i) in testCases"
             :key="i"
             :title="group.name"
-            :items="group.cases.data"
+            :items="group.list.data"
           >
           </plan-suite>
         </div>
@@ -33,11 +33,11 @@ const route = useRoute();
 const creating = ref(false);
 const newRunData = ref<Plan>({
   id: -1,
-  title: "",
-  description: "",
+  name: "",
   createdTime: "",
-  list: {
-    num: 0,
+  cases: {
+    totalCases: 0,
+    totalSuites: 0,
     data: [],
   },
 });

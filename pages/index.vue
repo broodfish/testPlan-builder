@@ -5,19 +5,28 @@
         title: 'Project Name',
         value: 'name',
       },
+      {
+        title: 'Created Time',
+        value: 'createdTime',
+        width: '180',
+        align: 'center',
+      },
     ]"
     :items="[
       {
         id: 1,
         name: 'Project 1',
+        createdTime: '2021-09-01',
       },
       {
         id: 2,
         name: 'Project 2',
+        createdTime: '2021-09-01',
       },
       {
         id: 3,
         name: 'Project 3',
+        createdTime: '2021-09-01',
       },
     ]"
   >
@@ -32,6 +41,7 @@
             @click="navigateTo(`/project-${item.id}`), (store.tab = null)"
           >
             <td>{{ item.name }}</td>
+            <td class="text-center">{{ item.createdTime }}</td>
           </tr>
         </template>
       </v-hover>

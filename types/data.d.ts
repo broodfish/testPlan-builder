@@ -20,11 +20,11 @@ interface Project {
 
 interface Plan {
   id: number;
-  title: string;
-  description: string;
+  name: string;
   createdTime: string;
-  list: {
-    num: number;
+  cases: {
+    totalCases: number;
+    totalSuites: number;
     data: CaseGroup[];
   };
 }
@@ -32,7 +32,7 @@ interface Plan {
 interface CaseGroup {
   id: number;
   name: string;
-  cases: {
+  list: {
     num: number;
     data: Case[];
   };
@@ -41,9 +41,8 @@ interface CaseGroup {
 interface Case {
   id: number;
   gid: number;
-  description: string;
+  name: string;
   priority: "High" | "Medium" | "Low";
-  prerequisite: string;
   steps: {
     num: number;
     data: Step[];
@@ -53,20 +52,15 @@ interface Case {
 interface Step {
   id: number;
   action: string;
-  inputs: string;
   expectedOutput: string;
-  actualOutput?: string;
-  result?: "pass" | "fail";
+  result: boolean | null;
+  comment: string | null;
 }
 
 interface Run {
   id: number;
-  title;
+  name;
   createdTime: string;
-  startedTime?: string;
-  finishedTime?: string;
-  status: "running" | "finished";
-  configurations: string[];
   plan: Plan;
 }
 
