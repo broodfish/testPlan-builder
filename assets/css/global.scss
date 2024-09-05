@@ -24,13 +24,24 @@
   }
 }
 
-.scrollbar-transparent {
+* {
   &::-webkit-scrollbar {
     background: transparent;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(var(--v-theme-primary), 0.1);
+    background: rgba(var(--v-theme-primary), 0.15);
+    border-radius: 8px;
+  }
+}
+
+.transparent-scrollbar {
+  &::-webkit-scrollbar {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="border rounded-lg">
     <div
-      class="border-b px-6 py-4 tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-4"
+      class="border-b px-6 py-4 tw-flex tw-min-h-[70px] tw-flex-row tw-items-center tw-justify-between tw-gap-4"
     >
       <div>
         <div class="text-h6">{{ props.title }}</div>
@@ -13,7 +13,7 @@
         <slot name="action"></slot>
       </div>
     </div>
-    <div class="px-6 py-4">
+    <div :class="noPadding ? '' : 'px-6 py-4'">
       <slot name="content"></slot>
     </div>
   </div>
@@ -22,5 +22,6 @@
 const props = defineProps<{
   title: string;
   description?: string;
+  noPadding?: boolean;
 }>();
 </script>

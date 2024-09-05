@@ -1,137 +1,95 @@
 <template>
-  <v-layout class="tw-h-[calc(100vh_-_96px_-_3.25rem)]">
-    <cases-folder></cases-folder>
-    <v-main>
-      <div class="tw-h-full tw-w-full tw-overflow-y-scroll tw-p-4">
-        <div>
-          <span class="subtitle">information</span>
-          <div class="tw-m-4 tw-grid tw-grid-cols-2 tw-gap-4">
-            <div class="item">
-              <span class="label">Description</span>
-              <span>{{ currentCase?.description }}</span>
-            </div>
-            <div class="item">
-              <span class="label">Case ID</span>
-              <span>{{ currentCase?.id }}</span>
-            </div>
-            <div class="item">
-              <span class="label">Team Suite</span>
-              <span>{{ currentSuite?.name }}</span>
-            </div>
-            <div class="item">
-              <span class="label">Priority</span>
-              <span>{{ currentCase?.priority }}</span>
-            </div>
-            <div class="item">
-              <span class="label">Prerequisite</span>
-              <span>{{ currentCase?.prerequisite ?? "-" }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="tw-mt-12">
-          <div class="tw-flex tw-h-[36px] tw-flex-row tw-justify-between">
-            <span class="subtitle tw-mb-4">Execution Steps</span>
-            <v-btn
-              v-if="!editing"
-              color="primary"
-              prepend-icon="edit"
-              variant="tonal"
-              @click="editing = true"
-              >Edit</v-btn
-            >
-          </div>
-          <v-data-table-virtual
-            :items="tempCase?.steps.data"
-            :headers="headers"
-          >
-            <template #item="{ index }">
+  <div class="tw-flex tw-h-[calc(100vh_-_244px)] tw-flex-row tw-gap-[30px]">
+    <custom-card
+      :title="
+        getPlan(Number(route.params.projectID), Number(route.params.planID))!
+          .title
+      "
+      no-padding
+    >
+      <template #content>
+        <cases-folder></cases-folder>
+      </template>
+    </custom-card>
+    <custom-card
+      title="Execution Steps"
+      class="overflow-hidden tw-flex-1"
+      no-padding
+    >
+      <template #content>
+        <div class="px-6 py-4 tw-h-[calc(100vh_-_314px)] tw-overflow-y-scroll">
+          <v-table class="border-none">
+            <thead>
               <tr>
-                <td class="text-grey">{{ index + 1 }}</td>
-                <td>
-                  <div
-                    class="tw-h-full tw-w-full"
-                    :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
-                  >
-                    <v-textarea
-                      v-model="tempCase!.steps.data[index].action"
-                      variant="solo"
-                      flat
-                      tile
-                      width="auto"
-                      :readonly="!editing"
-                      no-resize
-                      auto-grow
-                      :rows="1"
-                      bg-color="transparent"
-                      class="text-xs"
-                    ></v-textarea>
-                  </div>
+                <th class="tw-w-[56px]"></th>
+                <th><span class="px-4">Action</span></th>
+                <th><span class="px-4">Expected Output</span></th>
+                <th class="tw-w-[56px]"></th>
+              </tr>
+            </thead>
+            <tbody v-if="tempCase && tempCase.steps.num > 0">
+              <tr v-for="(item, i) in tempCase?.steps.data" :key="i">
+                <td class="text-secondary tw-font-mono">
+                  {{ i + 1 }}
                 </td>
                 <td>
-                  <div
-                    class="tw-h-full tw-w-full"
-                    :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
-                  >
-                    <v-textarea
-                      v-model="tempCase!.steps.data[index].inputs"
-                      variant="solo"
-                      flat
-                      tile
-                      width="auto"
-                      :readonly="!editing"
-                      no-resize
-                      auto-grow
-                      :rows="1"
-                      bg-color="transparent"
-                      class="text-xs"
-                    ></v-textarea>
-                  </div>
+                  <v-textarea
+                    v-model="item.action"
+                    variant="solo"
+                    rows="2"
+                    density="compact"
+                    flat
+                    no-resize
+                    hide-details
+                    class="transparent-scrollbar"
+                  ></v-textarea>
                 </td>
                 <td>
-                  <div
-                    class="tw-h-full tw-w-full"
-                    :class="editing ? 'bg-grey-lighten-5' : 'bg-transparent'"
-                  >
-                    <v-textarea
-                      v-model="tempCase!.steps.data[index].expectedOutput"
-                      variant="solo"
-                      flat
-                      tile
-                      width="auto"
-                      :readonly="!editing"
-                      no-resize
-                      auto-grow
-                      :rows="1"
-                      bg-color="transparent"
-                      class="text-xs"
-                    ></v-textarea>
-                  </div>
+                  <v-textarea
+                    v-model="item.expectedOutput"
+                    variant="solo"
+                    rows="2"
+                    density="compact"
+                    flat
+                    no-resize
+                    hide-details
+                    class="transparent-scrollbar"
+                  ></v-textarea>
                 </td>
                 <td>
                   <v-btn
-                    v-if="editing"
-                    icon
-                    variant="text"
-                    size="small"
                     color="error"
-                    @click="tempCase?.steps.data.splice(index, 1)"
-                    ><v-icon>delete</v-icon></v-btn
-                  >
+                    icon="delete"
+                    variant="text"
+                    @click="deleteHandler(i)"
+                  ></v-btn>
                 </td>
               </tr>
-            </template>
-          </v-data-table-virtual>
-          <div v-if="editing" class="tw-mt-4 tw-flex tw-justify-between">
-            <v-btn color="tertiary" variant="text" @click="addHandler">
-              <v-icon>add</v-icon>
-              New Step</v-btn
+            </tbody>
+          </v-table>
+          <div v-if="tempCase && tempCase.steps.num === 0">
+            <v-empty-state
+              color="secondary"
+              headline="No Action Yet"
+              text="Click button to add new action"
             >
-            <v-btn color="primary" @click="updateHandler">Save</v-btn>
+            </v-empty-state>
           </div>
+          <v-btn prepend-icon="add" variant="plain" @click="addHandler"
+            >New Step</v-btn
+          >
         </div>
-      </div>
-    </v-main>
-  </v-layout>
+      </template>
+      <template #action>
+        <v-btn
+          :disabled="isNoChanged"
+          prepend-icon="save"
+          @click="updateHandler"
+          >Save</v-btn
+        >
+      </template>
+    </custom-card>
+  </div>
 </template>
 <script setup lang="ts">
 definePageMeta({
@@ -148,45 +106,12 @@ const currentCase = computed(() => {
   return getCase(projectID, planID, groupID, caseID);
 });
 
-const currentSuite = computed(() => {
-  const projectID = Number(route.params.projectID);
-  const planID = Number(route.params.planID);
-  const groupID = Number(route.params.groupID);
-  return getSuite(projectID, planID, groupID);
+const isNoChanged = computed(() => {
+  console.log(tempCase.value, currentCase.value);
+  return JSON.stringify(tempCase.value) === JSON.stringify(currentCase.value);
 });
 
 const tempCase = ref<Case | undefined>(undefined);
-
-const headers: ReadonlyHeaders = [
-  {
-    title: "#",
-    key: "order",
-    sortable: false,
-    width: "60",
-  },
-  {
-    title: "Action",
-    value: "action",
-    sortable: false,
-  },
-  {
-    title: "Inputs",
-    value: "inputs",
-    sortable: false,
-  },
-  {
-    title: "Expected Output",
-    value: "expectedOutput",
-    sortable: false,
-  },
-  {
-    key: "delete",
-    width: "75",
-    sortable: false,
-  },
-];
-
-const editing = ref(false);
 
 const addHandler = () => {
   tempCase.value?.steps.data.push({
@@ -197,21 +122,16 @@ const addHandler = () => {
   });
 };
 const updateHandler = () => {
-  tempCase.value?.steps.data.forEach((step, index) => {
-    if (
-      step.action === "" &&
-      step.inputs === "" &&
-      step.expectedOutput === ""
-    ) {
-      tempCase.value?.steps.data.splice(index, 1);
-    }
-  });
-  editing.value = false;
+  // TODO
+};
+
+const deleteHandler = (index: number) => {
+  tempCase.value?.steps.data.splice(index, 1);
 };
 
 onMounted(() => {
   if (currentCase.value) {
-    tempCase.value = currentCase.value;
+    tempCase.value = JSON.parse(JSON.stringify(currentCase.value));
   }
 });
 </script>
