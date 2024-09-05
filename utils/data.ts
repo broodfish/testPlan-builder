@@ -2,6 +2,10 @@ export const getProjectName = (id: number) => {
   return data.find((project) => project.id === id)?.name;
 };
 
+export const getProject = (id: number) => {
+  return data.find((project) => project.id === id);
+};
+
 export const getPlan = (projectID: number, planID: number) => {
   return data
     .find((project) => project.id === projectID)
