@@ -49,7 +49,7 @@
                   "
                 >
                   <td>{{ item.name }}</td>
-                  <td class="text-center">{{ item.steps.num }}</td>
+                  <td class="text-center tw-font-mono">{{ item.steps.num }}</td>
                   <td class="tw-text-center">
                     <v-chip v-if="item.priority === 'High'" color="error"
                       >High</v-chip

@@ -19,8 +19,10 @@
               <td>
                 {{ item.name }}
               </td>
-              <td></td>
-              <td class="text-center">{{ item.cases.totalCases }}</td>
+              <td class="text-center tw-font-mono">{{ item.createdTime }}</td>
+              <td class="text-center tw-font-mono">
+                {{ item.cases.totalCases }}
+              </td>
               <td v-ripple.stop @click.stop>
                 <v-btn
                   icon="play_arrow"
@@ -111,7 +113,7 @@ const headers: ReadonlyHeaders = [
   {
     title: "Created Time",
     value: "createdTime",
-    width: "140",
+    width: "200",
     align: "center",
   },
   {

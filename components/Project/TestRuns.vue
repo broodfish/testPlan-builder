@@ -13,7 +13,7 @@
             "
           >
             <td>{{ item.name }}</td>
-            <td class="tw-text-center">{{ item.createdTime }}</td>
+            <td class="tw-text-center tw-font-mono">{{ item.createdTime }}</td>
             <td class="tw-text-center">
               <v-progress-linear
                 :model-value="calcProgress(item.plan.cases.data).progress"
@@ -27,9 +27,9 @@
                 </template>
               </v-progress-linear>
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td class="text-center tw-font-mono">
+              {{ calculate(item.plan.cases) }}
+            </td>
             <td><menu-actions></menu-actions></td>
           </tr>
         </template>
@@ -52,13 +52,25 @@ const headers: ReadonlyHeaders = [
     align: "center",
   },
   { title: "Progress", value: "progress", align: "center", width: "150" },
-  { title: "Pass", value: "pass", align: "center", width: "100" },
-  { title: "Fail", value: "fail", align: "center", width: "100" },
-  { title: "Pass Rate", key: "passRate", align: "center", width: "120" },
+  {
+    title: "Pass Rate ( Pass / Fail )",
+    key: "pass",
+    align: "center",
+    width: "220",
+  },
   {
     key: "options",
     width: "44",
     sortable: false,
   },
 ];
+
+const calculate = (cases: {
+  totalCases: number;
+  totalSuites: number;
+  data: CaseGroup[];
+}) => {
+  const { pass, fail } = calcPassFail(cases.data);
+  return `${pass / cases.totalCases}% (${pass}/${fail})`;
+};
 </script>

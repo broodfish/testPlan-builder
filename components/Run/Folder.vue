@@ -51,7 +51,7 @@
             @click="
               !isSelected &&
                 navigateTo(
-                  `/project-${route.params.projectID}/plan-${route.params.planID}/case-${group.id}-${caseItem.id}`,
+                  `/project-${route.params.projectID}/run-${route.params.runID}/case-${group.id}-${caseItem.id}`,
                 )
             "
           >

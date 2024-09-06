@@ -62,9 +62,7 @@
         <tr>
           <th>Test Plan</th>
           <th class="text-center tw-w-[180px]">Created Time</th>
-          <th class="text-center tw-w-[100px]">Pass</th>
-          <th class="text-center tw-w-[100px]">Fail</th>
-          <th class="text-center tw-w-[120px]">Pass Rate</th>
+          <th class="text-center tw-w-[220px]">Pass Rate ( Pass / Fail )</th>
         </tr>
       </thead>
       <tbody>
@@ -82,13 +80,7 @@
               <td>{{ item.name }}</td>
               <td class="text-center tw-font-mono">{{ item.createdTime }}</td>
               <td class="text-center tw-font-mono">
-                {{ calcPassRate(item.plan.cases.data).pass }}
-              </td>
-              <td class="text-center tw-font-mono">
-                {{ calcPassRate(item.plan.cases.data).fail }}
-              </td>
-              <td class="text-center tw-font-mono">
-                {{ calcPassRate(item.plan.cases.data).passRate }}%
+                {{ calculate(item.plan.cases) }}
               </td>
             </tr>
           </template>
@@ -111,6 +103,14 @@ const plans = computed(
 const runs = computed(
   () => getRuns(Number(route.params.projectID))?.reverse().slice(0, 5) || [],
 );
+const calculate = (cases: {
+  totalCases: number;
+  totalSuites: number;
+  data: CaseGroup[];
+}) => {
+  const { pass, fail } = calcPassFail(cases.data);
+  return `${pass / cases.totalCases}% (${pass}/${fail})`;
+};
 </script>
 <style lang="scss" scoped>
 .item {

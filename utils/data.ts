@@ -102,25 +102,21 @@ export const getExistedSuites = (projectID: number, planID: number) => {
   return plan?.cases.data.map((c) => c.name);
 };
 
-export const calcPassRate = (groups: CaseGroup[]) => {
-  let total = 0;
-  let passed = 0;
+export const calcPassFail = (groups: CaseGroup[]) => {
+  let pass = 0;
+  let fail = 0;
   groups.forEach((group: CaseGroup) => {
     group.list.data.forEach((c: Case) => {
       c.steps.data.forEach((s: Step) => {
-        total++;
         if (s.result) {
-          passed++;
+          pass++;
+        } else if (s.result === false) {
+          fail--;
         }
       });
     });
   });
-
-  return {
-    pass: passed,
-    fail: total - passed,
-    passRate: Math.round((passed / total) * 100),
-  };
+  return { pass, fail };
 };
 
 export const calcProgress = (groups: CaseGroup[]) => {
@@ -130,7 +126,7 @@ export const calcProgress = (groups: CaseGroup[]) => {
     group.list.data.forEach((c: Case) => {
       c.steps.data.forEach((s: Step) => {
         total++;
-        if (s.result) {
+        if (s.result !== null) {
           finished++;
         }
       });
