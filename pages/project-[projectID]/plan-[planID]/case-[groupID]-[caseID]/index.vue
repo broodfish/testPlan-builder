@@ -8,7 +8,7 @@
       no-padding
     >
       <template #content>
-        <cases-folder></cases-folder>
+        <plan-folder></plan-folder>
       </template>
     </custom-card>
     <custom-card
@@ -103,7 +103,7 @@ const currentCase = computed(() => {
   const planID = Number(route.params.planID);
   const groupID = Number(route.params.groupID);
   const caseID = Number(route.params.caseID);
-  return getCase(projectID, planID, groupID, caseID);
+  return getPlanCase(projectID, planID, groupID, caseID);
 });
 
 const isNoChanged = computed(() => {

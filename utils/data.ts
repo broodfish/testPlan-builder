@@ -26,7 +26,12 @@ export const getRuns = (projectID: number) => {
   return data.find((project) => project.id === projectID)?.runs.data;
 };
 
-export const getCase = (
+export const getRun = (projectID: number, runID: number) => {
+  const project = data.find((project) => project.id === projectID);
+  return project?.runs.data.find((run) => run.id === runID);
+};
+
+export const getPlanCase = (
   projectID: number,
   planID: number,
   groupID: number,
@@ -40,11 +45,30 @@ export const getCase = (
   return targetCase;
 };
 
-export const getCases = (projectID: number, planID: number) => {
+export const getPlanCases = (projectID: number, planID: number) => {
   const project = data.find((project) => project.id === projectID);
   const plan = project?.plans.data.find((plan) => plan.id === planID);
 
   return plan?.cases.data;
+};
+
+export const getRunCase = (
+  projectID: number,
+  runID: number,
+  caseID: number,
+) => {
+  const project = data.find((project) => project.id === projectID);
+  const run = project?.runs.data.find((run) => run.id === runID);
+  const targetCase = run?.plan.cases.data.find((c) => c.id === caseID);
+
+  return targetCase;
+};
+
+export const getRunCases = (projectID: number, runID: number) => {
+  const project = data.find((project) => project.id === projectID);
+  const run = project?.runs.data.find((run) => run.id === runID);
+
+  return run?.plan.cases.data;
 };
 
 export const getSuite = (
@@ -85,11 +109,6 @@ export const calcPassRate = (groups: CaseGroup[]) => {
     fail: total - passed,
     passRate: Math.round((passed / total) * 100),
   };
-};
-
-export const getRun = (projectID: number, runID: number) => {
-  const project = data.find((project) => project.id === projectID);
-  return project?.runs.data.find((run) => run.id === runID);
 };
 
 export const calcProgress = (groups: CaseGroup[]) => {

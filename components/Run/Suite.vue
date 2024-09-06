@@ -20,9 +20,6 @@
               {{ propsData.title }}
             </span>
           </div>
-          <div @click.stop>
-            <v-btn prepend-icon="add" @click="adding = true">New Case</v-btn>
-          </div>
         </div>
       </template>
     </v-hover>
@@ -34,7 +31,7 @@
               <th class="tw-flex-1">Case Name</th>
               <th class="text-center tw-w-[80px]">Steps</th>
               <th class="text-center tw-w-[120px]">Priority</th>
-              <th class="tw-w-[44px]"></th>
+              <th class="text-center tw-w-[100px]">Result</th>
             </tr>
           </thead>
           <tbody>
@@ -64,11 +61,22 @@
                     >
                     <v-chip v-else>Low</v-chip>
                   </td>
-                  <td>
-                    <menu-actions
-                      @edit="(currentCase = item), (editing = true)"
-                      @delete="deleting = true"
-                    ></menu-actions>
+                  <td class="text-center">
+                    <span
+                      v-if="
+                        item.steps.data.some((step) => step.result === null)
+                      "
+                      class="text-secondary"
+                    >
+                      -
+                    </span>
+                    <span
+                      v-else-if="item.steps.data.every((step) => step.result)"
+                      class="text-success"
+                    >
+                      Pass
+                    </span>
+                    <span v-else class="text-error">Fail</span>
                   </td>
                 </tr>
               </template>
@@ -77,12 +85,6 @@
         </v-table>
       </div>
     </v-expand-transition>
-    <dialog-new-case v-model="adding"></dialog-new-case>
-    <dialog-edit-case v-model="editing" :data="currentCase"></dialog-edit-case>
-    <dialog-confirm-deletion
-      v-model="deleting"
-      @delete="console.log('delete')"
-    ></dialog-confirm-deletion>
   </div>
 </template>
 <script setup lang="ts">
@@ -92,20 +94,6 @@ const propsData = defineProps<{
   items: Case[];
 }>();
 const isExpanded = ref(true);
-const adding = ref(false);
-const editing = ref(false);
-const deleting = ref(false);
-
-const currentCase = ref<Case>({
-  id: -1,
-  gid: -1,
-  name: "",
-  priority: "Medium",
-  steps: {
-    num: 0,
-    data: [],
-  },
-});
 </script>
 <style scoped lang="scss">
 .background {

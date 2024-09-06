@@ -75,12 +75,12 @@ const breadcrumbs = computed(() => {
 
   if (planID && groupID && caseID) {
     temp.push({
-      name: getCase(projectID, planID, groupID, caseID)!.name,
+      name: getPlanCase(projectID, planID, groupID, caseID)!.name,
       path: `/project-${projectID}/plan-${planID}/case-${groupID}-${caseID}`,
     });
   } else if (runID && groupID && caseID) {
     temp.push({
-      name: getCase(projectID, runID, groupID, caseID)!.name,
+      name: getPlanCase(projectID, runID, groupID, caseID)!.name,
       path: `/project-${projectID}/run-${runID}/case-${groupID}-${caseID}`,
     });
   }
