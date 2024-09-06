@@ -85,7 +85,7 @@ const currentPlan = computed(() =>
 const openedSuite = ref<number[]>([]);
 
 onMounted(() => {
-  const currentSuite = getSuite(
+  const currentSuite = getPlanSuite(
     Number(route.params.projectID),
     Number(route.params.planID),
     Number(route.params.groupID),

@@ -80,14 +80,14 @@
 const route = useRoute();
 
 const currentPlan = computed(() =>
-  getPlan(Number(route.params.projectID), Number(route.params.planID)),
+  getPlan(Number(route.params.projectID), Number(route.params.runID)),
 );
 const openedSuite = ref<number[]>([]);
 
 onMounted(() => {
-  const currentSuite = getSuite(
+  const currentSuite = getRunSuite(
     Number(route.params.projectID),
-    Number(route.params.planID),
+    Number(route.params.runID),
     Number(route.params.groupID),
   );
   if (currentSuite) {

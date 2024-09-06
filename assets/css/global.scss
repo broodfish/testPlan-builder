@@ -45,6 +45,15 @@ textarea {
   }
 }
 
+.v-textarea {
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  .v-input__control {
+    flex: 1;
+  }
+}
+
 .card-title {
   font-size: 1.25rem;
   font-weight: 500;

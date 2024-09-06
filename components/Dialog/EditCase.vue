@@ -52,7 +52,7 @@ const modelValue = computed<boolean>({
 });
 const description = ref<string>(props.data.description);
 const suite = ref<string | undefined>(
-  getSuite(
+  getPlanSuite(
     Number(route.params.projectID),
     Number(route.params.planID),
     props.data.gid,
@@ -72,7 +72,7 @@ watch(
     description.value = value.description;
     priority.value = value.priority;
     prerequisite.value = value.prerequisite;
-    suite.value = getSuite(
+    suite.value = getPlanSuite(
       Number(route.params.projectID),
       Number(route.params.planID),
       props.data.gid,

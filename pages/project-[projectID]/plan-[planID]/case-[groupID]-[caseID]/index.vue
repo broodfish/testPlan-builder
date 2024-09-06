@@ -35,25 +35,29 @@
                 <td>
                   <v-textarea
                     v-model="item.action"
-                    variant="solo"
+                    variant="outlined"
                     rows="2"
                     density="compact"
+                    base-color="transparent"
+                    color="primary"
                     flat
                     no-resize
                     hide-details
-                    class="transparent-scrollbar"
+                    auto-grow
                   ></v-textarea>
                 </td>
                 <td>
                   <v-textarea
                     v-model="item.expectedOutput"
-                    variant="solo"
+                    variant="outlined"
                     rows="2"
                     density="compact"
+                    base-color="transparent"
+                    color="primary"
                     flat
                     no-resize
                     hide-details
-                    class="transparent-scrollbar"
+                    auto-grow
                   ></v-textarea>
                 </td>
                 <td>

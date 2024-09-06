@@ -21,9 +21,10 @@
             <thead>
               <tr>
                 <th class="tw-w-[56px]"></th>
-                <th><span class="px-4">Action</span></th>
-                <th><span class="px-4">Expected Output</span></th>
-                <th class="tw-w-[56px]"></th>
+                <th>Action</th>
+                <th>Expected Output</th>
+                <th class="tw-w-[120px]">Result</th>
+                <th><span class="px-4">Comment</span></th>
               </tr>
             </thead>
             <tbody v-if="tempCase && tempCase.steps.num > 0">
@@ -32,51 +33,53 @@
                   {{ i + 1 }}
                 </td>
                 <td>
-                  <v-textarea
-                    v-model="item.action"
-                    variant="solo"
-                    rows="2"
-                    density="compact"
-                    flat
-                    no-resize
-                    hide-details
-                    class="transparent-scrollbar"
-                  ></v-textarea>
+                  {{ item.action }}
+                </td>
+                <td>
+                  {{ item.expectedOutput }}
+                </td>
+                <td>
+                  <div class="tw-flex tw-flex-row tw-items-center tw-gap-1">
+                    <v-btn
+                      :color="item.result ? 'success' : ''"
+                      icon
+                      :variant="item.result ? 'flat' : 'outlined'"
+                      size="small"
+                      @click="item.result = item.result ? null : true"
+                    >
+                      <v-icon>check</v-icon>
+                      <v-tooltip activator="parent">Pass</v-tooltip>
+                    </v-btn>
+                    <v-btn
+                      :color="item.result === false ? 'error' : ''"
+                      icon
+                      :variant="item.result === false ? 'flat' : 'outlined'"
+                      size="small"
+                      @click="
+                        item.result = item.result === false ? null : false
+                      "
+                      ><v-icon>close</v-icon
+                      ><v-tooltip activator="parent">Fail</v-tooltip></v-btn
+                    >
+                  </div>
                 </td>
                 <td>
                   <v-textarea
-                    v-model="item.expectedOutput"
-                    variant="solo"
+                    v-model="item.comment"
+                    variant="outlined"
                     rows="2"
                     density="compact"
+                    base-color="transparent"
+                    color="primary"
                     flat
                     no-resize
                     hide-details
-                    class="transparent-scrollbar"
+                    auto-grow
                   ></v-textarea>
-                </td>
-                <td>
-                  <v-btn
-                    color="error"
-                    icon="delete"
-                    variant="text"
-                    @click="deleteHandler(i)"
-                  ></v-btn>
                 </td>
               </tr>
             </tbody>
           </v-table>
-          <div v-if="tempCase && tempCase.steps.num === 0">
-            <v-empty-state
-              color="secondary"
-              headline="No Action Yet"
-              text="Click button to add new action"
-            >
-            </v-empty-state>
-          </div>
-          <v-btn prepend-icon="add" variant="plain" @click="addHandler"
-            >New Step</v-btn
-          >
         </div>
       </template>
       <template #action>
@@ -111,21 +114,8 @@ const isNoChanged = computed(() => {
 
 const tempCase = ref<Case | undefined>(undefined);
 
-const addHandler = () => {
-  tempCase.value?.steps.data.push({
-    id: -1,
-    action: "",
-    expectedOutput: "",
-    result: null,
-    comment: null,
-  });
-};
 const updateHandler = () => {
   // TODO
-};
-
-const deleteHandler = (index: number) => {
-  tempCase.value?.steps.data.splice(index, 1);
 };
 
 onMounted(() => {
