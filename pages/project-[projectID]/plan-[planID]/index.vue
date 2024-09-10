@@ -13,7 +13,9 @@
         </div>
       </template>
       <template #action>
-        <v-btn prepend-icon="add">New Suite</v-btn>
+        <v-btn prepend-icon="add"
+          >New Suite<menu-new-suite></menu-new-suite
+        ></v-btn>
       </template>
     </custom-card>
     <dialog-confirm-run

@@ -1,9 +1,9 @@
 <template>
-  <v-dialog v-model="modelValue" max-width="400">
-    <v-card class="tw-p-4">
-      <v-card-title class="tw-text-center">New Test Case</v-card-title>
+  <v-dialog v-model="modelValue" max-width="360">
+    <v-card class="px-4 py-4">
+      <v-card-title class="tw-text-center">Edit Test Case</v-card-title>
       <v-card-text>
-        <v-text-field v-model="description" label="Description"></v-text-field>
+        <v-text-field v-model="name" label="Name"></v-text-field>
         <v-combobox
           v-model="suite"
           :items="
@@ -18,21 +18,41 @@
           v-model="priority"
           :items="['High', 'Medium', 'Low']"
           label="Priority"
+          ><template #selection="{ item }">
+            <v-chip v-if="item.title === 'High'" color="error">{{
+              item.title
+            }}</v-chip>
+            <v-chip v-else-if="item.title === 'Medium'" color="primary">{{
+              item.title
+            }}</v-chip>
+            <v-chip v-else color="secondary">{{ item.title }}</v-chip>
+          </template>
+          <template #item="{ props: itemProps, item }">
+            <v-list-item
+              v-if="item.title === 'High'"
+              v-bind="itemProps"
+              base-color="error"
+              color="error"
+            ></v-list-item>
+            <v-list-item
+              v-else-if="item.title === 'Medium'"
+              v-bind="itemProps"
+              base-color="primary"
+              color="primary"
+            ></v-list-item>
+            <v-list-item
+              v-else
+              v-bind="itemProps"
+              base-color="secondary"
+              color="secondary"
+            ></v-list-item> </template
         ></v-select>
-        <v-text-field
-          v-model="prerequisite"
-          label="Prerequisite"
-        ></v-text-field>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" width="100" variant="flat" @click="editHandler"
           >Edit</v-btn
         >
-        <v-btn
-          color="surfaceVariant"
-          width="100"
-          variant="flat"
-          @click="modelValue = false"
+        <v-btn width="100" variant="outlined" @click="modelValue = false"
           >Cancel</v-btn
         >
       </v-card-actions>
@@ -50,7 +70,7 @@ const modelValue = computed<boolean>({
   get: () => props.modelValue,
   set: (value) => emit("update:modelValue", value),
 });
-const description = ref<string>(props.data.description);
+const name = ref<string>(props.data.name);
 const suite = ref<string | undefined>(
   getPlanSuite(
     Number(route.params.projectID),
@@ -59,7 +79,6 @@ const suite = ref<string | undefined>(
   )?.name,
 );
 const priority = ref<string>(props.data.priority);
-const prerequisite = ref<string>(props.data.prerequisite);
 
 const editHandler = () => {
   modelValue.value = false;
@@ -69,9 +88,8 @@ const editHandler = () => {
 watch(
   () => props.data,
   (value) => {
-    description.value = value.description;
+    name.value = value.name;
     priority.value = value.priority;
-    prerequisite.value = value.prerequisite;
     suite.value = getPlanSuite(
       Number(route.params.projectID),
       Number(route.params.planID),

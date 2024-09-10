@@ -1,5 +1,6 @@
 <template>
   <v-menu
+    v-model="isOpen"
     activator="parent"
     transition="scale-transition"
     :close-on-content-click="false"
@@ -8,20 +9,23 @@
   >
     <v-card min-width="300">
       <v-text-field
-        label="New Test Suite"
-        color="tertiary"
-        variant="solo"
-        density="compact"
+        v-model="suiteName"
+        placeholder="Suite Name"
+        color="primary"
+        variant="outlined"
+        density="default"
+        hide-details
+        base-color="transparent"
       >
         <template #append-inner>
           <div class="tw-mr-[-0.75rem]">
             <v-btn
-              color="tertiary"
               variant="tonal"
               flat
-              height="48"
               :rounded="false"
-              >Create</v-btn
+              height="56"
+              @click="addHandler"
+              >Add</v-btn
             >
           </div>
         </template>
@@ -29,3 +33,14 @@
     </v-card>
   </v-menu>
 </template>
+<script setup lang="ts">
+const isOpen = ref(false);
+const suiteName = ref("");
+const addHandler = () => {
+  if (suiteName.value === "") {
+    return;
+  }
+  // TODO: add new suite
+  isOpen.value = false;
+};
+</script>

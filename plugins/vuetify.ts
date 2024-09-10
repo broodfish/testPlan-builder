@@ -35,15 +35,20 @@ export default defineNuxtPlugin((app) => {
         color: "primary",
         variant: "flat",
       },
+      VCombobox: {
+        variant: "outlined",
+      },
       VDataTable: {
         class: "border rounded-lg",
+      },
+      VSelect: {
+        variant: "outlined",
       },
       VTable: {
         class: "border rounded-lg",
       },
       VTextField: {
         variant: "outlined",
-        density: "compact",
       },
     },
     icons: {

@@ -14,6 +14,7 @@
         :hide-details="true"
         label="Search"
         prepend-inner-icon="search"
+        density="compact"
       ></v-text-field>
     </div>
   </v-app-bar>

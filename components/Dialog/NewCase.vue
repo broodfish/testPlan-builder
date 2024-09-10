@@ -1,9 +1,9 @@
 <template>
-  <v-dialog v-model="modelValue" max-width="400">
-    <v-card class="tw-p-4">
+  <v-dialog v-model="modelValue" max-width="360">
+    <v-card class="px-4 py-4">
       <v-card-title class="tw-text-center">New Test Case</v-card-title>
       <v-card-text>
-        <v-text-field label="Description"></v-text-field>
+        <v-text-field label="Name"></v-text-field>
         <v-combobox
           :items="
             getExistedSuites(
@@ -13,21 +13,43 @@
           "
           label="Test Suites"
         ></v-combobox>
-        <v-select
-          :items="['High', 'Medium', 'Low']"
-          label="Priority"
-        ></v-select>
-        <v-text-field label="Prerequisite"></v-text-field>
+        <v-select :items="['High', 'Medium', 'Low']" label="Priority">
+          <template #selection="{ item }">
+            <v-chip v-if="item.title === 'High'" color="error">{{
+              item.title
+            }}</v-chip>
+            <v-chip v-else-if="item.title === 'Medium'" color="primary">{{
+              item.title
+            }}</v-chip>
+            <v-chip v-else color="secondary">{{ item.title }}</v-chip>
+          </template>
+          <template #item="{ props: itemProps, item }">
+            <v-list-item
+              v-if="item.title === 'High'"
+              v-bind="itemProps"
+              base-color="error"
+              color="error"
+            ></v-list-item>
+            <v-list-item
+              v-else-if="item.title === 'Medium'"
+              v-bind="itemProps"
+              base-color="primary"
+              color="primary"
+            ></v-list-item>
+            <v-list-item
+              v-else
+              v-bind="itemProps"
+              base-color="secondary"
+              color="secondary"
+            ></v-list-item>
+          </template>
+        </v-select>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" width="100" variant="flat" @click="addHandler"
           >Add</v-btn
         >
-        <v-btn
-          color="surfaceVariant"
-          width="100"
-          variant="flat"
-          @click="modelValue = false"
+        <v-btn width="100" variant="outlined" @click="modelValue = false"
           >Cancel</v-btn
         >
       </v-card-actions>
