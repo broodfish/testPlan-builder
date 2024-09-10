@@ -65,3 +65,12 @@ textarea {
   letter-spacing: 0.0125em;
   padding: 1rem 1.5rem;
 }
+
+.header {
+  background: url("/assets/images/header.png"),
+    linear-gradient(
+      0deg,
+      rgba(var(--v-theme-primary), 0.02),
+      rgba(var(--v-theme-primary-darken-1), 0.1)
+    );
+}

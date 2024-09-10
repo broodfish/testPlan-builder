@@ -8,7 +8,7 @@ import { md, aliases } from "vuetify/iconsets/md";
 
 const light: ThemeDefinition = {
   colors: {
-    primary: "#3063E5",
+    primary: "#00B2A8",
     secondary: "#969696",
     error: "#F44336",
     success: "#4CAF50",
@@ -19,7 +19,7 @@ const light: ThemeDefinition = {
 
 const dark: ThemeDefinition = {
   colors: {
-    primary: "#3063E5",
+    primary: "#00B2A8",
     secondary: "#969696",
     error: "#F44336",
     success: "#4CAF50",

@@ -15,9 +15,3 @@ import { useStore } from "@/stores/data";
 
 const store = useStore();
 </script>
-<style lang="scss" scoped>
-.header {
-  background: url("/assets/images/header.png"),
-    linear-gradient(0deg, rgba(48, 99, 229, 0.02), rgba(0, 72, 255, 0.06));
-}
-</style>
