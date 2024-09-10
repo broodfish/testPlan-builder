@@ -26,7 +26,7 @@
       <v-table class="tw-flex-1">
         <thead>
           <tr>
-            <th>Test Plans</th>
+            <th>Name</th>
             <th class="text-center tw-w-[180px]">Created Time</th>
           </tr>
         </thead>
@@ -60,7 +60,7 @@
     <v-table>
       <thead>
         <tr>
-          <th>Test Plan</th>
+          <th>Name</th>
           <th class="text-center tw-w-[180px]">Created Time</th>
           <th class="text-center tw-w-[220px]">Pass Rate ( Pass / Fail )</th>
         </tr>
@@ -97,9 +97,11 @@
 <script setup lang="ts">
 const route = useRoute();
 const project = computed(() => getProject(Number(route.params.projectID)));
-const plans = computed(
-  () => getPlans(Number(route.params.projectID))?.reverse().slice(0, 5) || [],
-);
+const plans = computed(() => {
+  const plans = getPlans(Number(route.params.projectID));
+
+  return plans?.slice(plans.length - 5, plans.length) || [];
+});
 const runs = computed(
   () => getRuns(Number(route.params.projectID))?.reverse().slice(0, 5) || [],
 );

@@ -16,11 +16,11 @@
         <v-btn prepend-icon="add">New Suite</v-btn>
       </template>
     </custom-card>
-    <dialog-create-run
+    <dialog-confirm-run
       v-model="creating"
       :item="newRunData"
       @create="console.log('create')"
-    ></dialog-create-run>
+    ></dialog-confirm-run>
   </div>
 </template>
 <script setup lang="ts">

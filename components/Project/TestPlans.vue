@@ -41,6 +41,7 @@
                   @edit="
                     () => {
                       edittedPlan = item;
+                      console.log(edittedPlan);
                       editing = true;
                     }
                   "
@@ -54,7 +55,7 @@
       <template #top>
         <div class="card-title border-b tw-flex tw-flex-row tw-justify-between">
           Test Plans
-          <v-btn prepend-icon="add">ADD</v-btn>
+          <v-btn prepend-icon="add" @click="adding = true">ADD</v-btn>
         </div>
       </template>
     </v-data-table>
@@ -67,11 +68,11 @@
       :item="edittedPlan"
       @edit="console.log('edit')"
     ></dialog-edit-plan>
-    <dialog-create-run
+    <dialog-confirm-run
       v-model="creating"
       :item="newRunData"
       @create="console.log('create')"
-    ></dialog-create-run>
+    ></dialog-confirm-run>
     <dialog-confirm-deletion
       v-model="deleting"
       @delete="console.log('delete')"
@@ -107,25 +108,21 @@ const newRunData = ref<Plan>({
 
 const headers: ReadonlyHeaders = [
   {
-    title: "Title",
-    value: "title",
+    title: "Name",
   },
   {
     title: "Created Time",
-    value: "createdTime",
     width: "200",
     align: "center",
   },
   {
     title: "Test Cases",
-    value: "list.num",
     width: "120",
     align: "center",
     sortable: false,
   },
   {
     title: "Run",
-    key: "run",
     align: "center",
     width: "64",
     sortable: false,

@@ -1,18 +1,20 @@
 <template>
-  <v-dialog v-model="modelValue" max-width="300">
-    <v-card class="tw-p-4" color="errorContainer">
+  <v-dialog v-model="modelValue" max-width="320">
+    <v-card class="px-4 py-6">
       <v-card-title class="tw-text-center">Confirm Deletion?</v-card-title>
       <v-card-actions>
-        <v-btn color="error" variant="flat" width="100" @click="deleteHandler"
-          >Confirm</v-btn
-        >
-        <v-btn
-          color="white"
-          variant="flat"
-          width="100"
-          @click="modelValue = false"
-          >Cancel</v-btn
-        >
+        <div class="w-100 pt-8 tw-flex tw-justify-center tw-gap-2">
+          <v-btn color="error" variant="flat" width="120" @click="deleteHandler"
+            >Confirm</v-btn
+          >
+          <v-btn
+            color="error"
+            variant="outlined"
+            width="120"
+            @click="modelValue = false"
+            >Cancel</v-btn
+          >
+        </div>
       </v-card-actions>
     </v-card>
   </v-dialog>

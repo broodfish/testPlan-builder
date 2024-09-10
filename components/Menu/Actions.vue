@@ -12,8 +12,18 @@
       </v-btn>
     </template>
     <v-list density="compact">
-      <v-list-item value="edit" @click="emit('edit')">Edit</v-list-item>
-      <v-list-item value="delete" @click="emit('delete')">Delete</v-list-item>
+      <v-list-item
+        :ripple="{ class: 'text-primary' }"
+        value="edit"
+        @click="emit('edit')"
+        >Edit</v-list-item
+      >
+      <v-list-item
+        :ripple="{ class: 'text-primary' }"
+        value="delete"
+        @click="emit('delete')"
+        >Delete</v-list-item
+      >
     </v-list></v-menu
   >
 </template>

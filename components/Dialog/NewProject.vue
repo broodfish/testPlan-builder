@@ -1,13 +1,13 @@
 <template>
   <v-dialog v-model="modelValue" max-width="360">
-    <v-card class="px-4 py-4">
-      <v-card-title class="tw-text-center">Edit Test Plan</v-card-title>
+    <v-card class="py-4 px-4">
+      <v-card-title class="tw-text-center">New Project</v-card-title>
       <v-card-text>
-        <v-text-field v-model="name" label="Name"></v-text-field>
+        <v-text-field label="Name"></v-text-field>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" width="100" variant="flat" @click="editHandler"
-          >Update</v-btn
+        <v-btn color="primary" width="100" variant="flat" @click="addHandler"
+          >Add</v-btn
         >
         <v-btn width="100" variant="outlined" @click="modelValue = false"
           >Cancel</v-btn
@@ -19,24 +19,15 @@
 <script setup lang="ts">
 const props = defineProps<{
   modelValue: boolean;
-  item: Plan;
 }>();
-const emit = defineEmits(["update:modelValue", "edit"]);
+const emit = defineEmits(["update:modelValue", "add"]);
 const modelValue = computed<boolean>({
   get: () => props.modelValue,
   set: (value) => emit("update:modelValue", value),
 });
-const name = ref<string>(props.item.name);
 
-const editHandler = () => {
+const addHandler = () => {
   modelValue.value = false;
-  emit("edit");
+  emit("add");
 };
-
-watch(
-  () => props.item,
-  (value) => {
-    name.value = value.name;
-  },
-);
 </script>

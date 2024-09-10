@@ -1,20 +1,15 @@
 <template>
-  <v-dialog v-model="modelValue" max-width="400">
-    <v-card class="tw-p-4">
+  <v-dialog v-model="modelValue" max-width="360">
+    <v-card class="py-4 px-4">
       <v-card-title class="tw-text-center">New Test Plan</v-card-title>
       <v-card-text>
-        <v-text-field label="Title"></v-text-field>
-        <v-textarea label="Description"></v-textarea>
+        <v-text-field label="Name"></v-text-field>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" width="100" variant="flat" @click="addHandler"
           >Add</v-btn
         >
-        <v-btn
-          color="surfaceVariant"
-          width="100"
-          variant="flat"
-          @click="modelValue = false"
+        <v-btn width="100" variant="outlined" @click="modelValue = false"
           >Cancel</v-btn
         >
       </v-card-actions>

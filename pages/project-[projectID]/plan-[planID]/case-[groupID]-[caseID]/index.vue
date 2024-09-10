@@ -46,7 +46,7 @@
                     auto-grow
                   ></v-textarea>
                 </td>
-                <td>
+                <td class="padding-none">
                   <v-textarea
                     v-model="item.expectedOutput"
                     variant="outlined"
