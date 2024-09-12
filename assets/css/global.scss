@@ -67,10 +67,17 @@ textarea {
 }
 
 .header {
-  background: url("/assets/images/header.png"),
+  background:
     linear-gradient(
       0deg,
-      rgba(var(--v-theme-primary), 0.02),
-      rgba(var(--v-theme-primary-darken-1), 0.1)
-    );
+      rgb(255, 255, 255),
+      rgba(var(--v-theme-tertiary), 0.1)
+    ),
+    linear-gradient(
+      90deg,
+      rgb(255, 255, 255),
+      rgba(var(--v-theme-tertiary), 0.1)
+    ),
+    95% url("/assets/images/header.png");
+  background-clip: padding-box;
 }
