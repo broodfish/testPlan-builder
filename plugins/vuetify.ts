@@ -10,7 +10,7 @@ const light: ThemeDefinition = {
   colors: {
     primary: "#3063E5",
     secondary: "#969696",
-    tertiary: "#00B2FF",
+    tertiary: "#0085FF",
     error: "#F44336",
     success: "#4CAF50",
     shadow: "#F7F7F7",
@@ -22,7 +22,7 @@ const dark: ThemeDefinition = {
   colors: {
     primary: "#F23ECA",
     secondary: "#E4A9D7",
-    tertiary: "#00B2FF",
+    tertiary: "#0085FF",
     error: "#F44336",
     success: "#4CAF50",
     shadow: "#F7F7F7",
