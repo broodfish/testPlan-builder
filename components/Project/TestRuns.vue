@@ -1,5 +1,9 @@
 <template>
-  <v-data-table :items="runs" :headers="headers">
+  <v-data-table
+    :items="runs"
+    :headers="headers"
+    :sort-by="[{ key: 'createdTime', order: 'desc' }]"
+  >
     <template #item="{ item }">
       <v-hover>
         <template #default="{ isHovering, props }">
@@ -51,11 +55,11 @@ const headers: ReadonlyHeaders = [
     width: "200",
     align: "center",
   },
-  { title: "Progress", value: "progress", align: "center", width: "150" },
+  { title: "Progress", align: "center", width: "150" },
   {
     title: "Pass Rate ( Pass / Fail )",
-    key: "pass",
     align: "center",
+    sortable: false,
     width: "220",
   },
   {
