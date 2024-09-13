@@ -1,60 +1,42 @@
 <template>
-  <div>
-    <v-data-table
-      :headers="headers"
-      :items="data"
-      :sort-by="[{ key: 'createdTime', order: 'desc' }]"
-    >
-      <template #item="{ item }">
-        <v-hover>
-          <template #default="{ isHovering, props }">
-            <tr
-              v-ripple="{ class: 'text-ripple' }"
-              v-bind="props"
-              class="cursor-pointer"
-              :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
-              @click="navigateTo(`/project-${item.id}`), (store.tab = null)"
-            >
-              <td>{{ item.name }}</td>
-              <td class="text-center">{{ item.createdTime }}</td>
-            </tr>
-          </template>
-        </v-hover>
-      </template>
-      <template #top>
-        <div class="card-title border-b tw-flex tw-flex-row tw-justify-between">
-          Projects
-          <v-btn prepend-icon="add" @click="isAdding = true">ADD</v-btn>
-        </div>
-      </template>
-    </v-data-table>
-    <dialog-new-project
-      v-model="isAdding"
-      @add="addHandler"
-    ></dialog-new-project>
+  <div class="home">
+    <p class="tw-text-6xl tw-font-bold">Welcome to TestOps</p>
+    <p class="tw-text-2xl">
+      Efficiently manage your test cases and running results
+    </p>
+    <div>
+      <v-btn
+        class="start-button"
+        color="white"
+        size="large"
+        elevation="2"
+        append-icon="arrow_right"
+        @click="navigateTo('/projects')"
+      >
+        Start
+      </v-btn>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import { useStore } from "@/stores/data";
 definePageMeta({
+  layout: "home",
   title: "Home",
 });
-const store = useStore();
-const headers: ReadonlyHeaders = [
-  {
-    title: "Project Name",
-    value: "name",
-  },
-  {
-    title: "Created Time",
-    value: "createdTime",
-    width: "180",
-    align: "center",
-  },
-];
-const isAdding = ref(false);
-const addHandler = () => {
-  // TODO: add project
-  isAdding.value = false;
-};
 </script>
+<style scoped>
+.home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10rem 0;
+  gap: 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary)) 0%,
+    rgba(var(--v-theme-tertiary)) 100%
+  );
+  color: white;
+  text-align: center;
+}
+</style>

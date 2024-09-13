@@ -13,7 +13,7 @@
             class="cursor-pointer"
             :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
             @click="
-              navigateTo(`/project-${route.params.projectID}/run-${item.id}`)
+              navigateTo(`/projects/${route.params.projectId}/run/${item.id}`)
             "
           >
             <td>{{ item.name }}</td>
@@ -46,7 +46,7 @@
 </template>
 <script setup lang="ts">
 const route = useRoute();
-const runs = computed(() => getRuns(Number(route.params.projectID)));
+const runs = computed(() => getRuns(Number(route.params.projectId)));
 const headers: ReadonlyHeaders = [
   { title: "Test Plan", value: "title" },
   {

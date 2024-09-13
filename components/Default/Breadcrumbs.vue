@@ -15,11 +15,7 @@
       </div>
     </div>
     <ul class="ml-12 tw-flex tw-flex-row tw-text-sm">
-      <li
-        v-for="(item, i) in breadcrumbs"
-        :key="i"
-        class="tw-flex tw-flex-row tw-items-end"
-      >
+      <li v-for="(item, i) in breadcrumbs" :key="i" class="tw-flex tw-flex-row">
         <v-hover v-if="i !== breadcrumbs.length - 1">
           <template #default="{ isHovering, props }">
             <span
@@ -28,13 +24,13 @@
               :class="isHovering ? 'text-primary-darken-1' : ''"
               @click="navigateTo(item.path)"
             >
-              <v-icon v-if="i === 0" size="small" class="mr-1">home</v-icon>
+              <v-icon v-if="i === 0" size="small" class="mr-1">work</v-icon>
               {{ item.name }}
             </span>
           </template>
         </v-hover>
         <span v-else class="text-secondary">
-          <v-icon v-if="i === 0" size="small" class="mr-1">home</v-icon>
+          <v-icon v-if="i === 0" size="small" class="mr-1">work</v-icon>
           {{ item.name }}
         </span>
         <span v-if="i !== breadcrumbs.length - 1" class="mx-2">/</span>
@@ -45,43 +41,43 @@
 <script setup lang="ts">
 const route = useRoute();
 const breadcrumbs = computed(() => {
-  const temp = [{ name: "Home", path: "/" }];
-  const projectID = Number(route.params.projectID);
-  const planID = Number(route.params.planID);
-  const runID = Number(route.params.runID);
-  const groupID = Number(route.params.groupID);
-  const caseID = Number(route.params.caseID);
+  const temp = [{ name: "Projects", path: "/projects" }];
+  const projectId = Number(route.params.projectId);
+  const planId = Number(route.params.planId);
+  const runId = Number(route.params.runId);
+  const groupId = Number(route.params.groupId);
+  const caseId = Number(route.params.caseId);
 
-  if (projectID) {
+  if (projectId) {
     temp.push({
-      name: getProjectName(projectID)!,
-      path: `/project-${projectID}`,
+      name: getProjectName(projectId)!,
+      path: `/projects/${projectId}`,
     });
   }
 
-  if (planID) {
+  if (planId) {
     temp.push({
-      name: getPlan(projectID, planID)!.name,
-      path: `/project-${projectID}/plan-${planID}`,
+      name: getPlan(projectId, planId)!.name,
+      path: `/projects/${projectId}/plan/${planId}`,
     });
   }
 
-  if (runID) {
+  if (runId) {
     temp.push({
-      name: getRun(projectID, runID)!.name,
-      path: `/project-${projectID}/run-${runID}`,
+      name: getRun(projectId, runId)!.name,
+      path: `/projects/${projectId}/run/${runId}`,
     });
   }
 
-  if (planID && groupID && caseID) {
+  if (planId && groupId && caseId) {
     temp.push({
-      name: getPlanCase(projectID, planID, groupID, caseID)!.name,
-      path: `/project-${projectID}/plan-${planID}/case-${groupID}-${caseID}`,
+      name: getPlanCase(projectId, planId, groupId, caseId)!.name,
+      path: `/projects/${projectId}/plan/${planId}/case/${groupId}/${caseId}`,
     });
-  } else if (runID && groupID && caseID) {
+  } else if (runId && groupId && caseId) {
     temp.push({
-      name: getPlanCase(projectID, runID, groupID, caseID)!.name,
-      path: `/project-${projectID}/run-${runID}/case-${groupID}-${caseID}`,
+      name: getPlanCase(projectId, runId, groupId, caseId)!.name,
+      path: `/projects/${projectId}/run/${runId}/case/${groupId}/${caseId}`,
     });
   }
 

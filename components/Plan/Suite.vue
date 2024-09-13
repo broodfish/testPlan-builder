@@ -47,7 +47,7 @@
                   :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
                   @click="
                     navigateTo(
-                      `/project-${route.params.projectID}/plan-${route.params.planID}/case-${item.gid}-${item.id}`,
+                      `/projects/${route.params.projectId}/plan/${route.params.planId}/case/${item.gid}/${item.id}`,
                     )
                   "
                 >

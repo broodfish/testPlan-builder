@@ -19,15 +19,15 @@ export const existRoutes = [
   },
   {
     title: "Test Cases",
-    value: "planID",
-    name: "proID-testPlans-planID",
-    to: "/:proID/testPlans/:planID",
+    value: "planId",
+    name: "proID-testPlans-planId",
+    to: "/:proID/testPlans/:planId",
   },
   {
     title: "Test Case",
-    value: "caseID",
-    name: "proID-testPlans-planID-caseID",
-    to: "/:proID/testPlans/:planID/:caseID",
+    value: "caseId",
+    name: "proID-testPlans-planId-caseId",
+    to: "/:proID/testPlans/:planId/:caseId",
   },
   {
     title: "Test Runs",
@@ -37,9 +37,9 @@ export const existRoutes = [
   },
   {
     title: "Test Run",
-    value: "runID",
-    name: "proID-testRuns-runID",
-    to: "/:proID/testRuns/:runID",
+    value: "runId",
+    name: "proID-testRuns-runId",
+    to: "/:proID/testRuns/:runId",
   },
 ];
 

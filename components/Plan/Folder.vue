@@ -1,7 +1,7 @@
 <template>
   <v-list
     v-model:opened="openedSuite"
-    :selected="[Number(route.params.caseID)]"
+    :selected="[Number(route.params.caseId)]"
     density="compact"
     width="270"
     class="px-2 tw-text-sm"
@@ -51,7 +51,7 @@
             @click="
               !isSelected &&
                 navigateTo(
-                  `/project-${route.params.projectID}/plan-${route.params.planID}/case-${group.id}-${caseItem.id}`,
+                  `/projects/${route.params.projectId}/plan/${route.params.planId}/case/${group.id}/${caseItem.id}`,
                 )
             "
           >
@@ -80,15 +80,15 @@
 const route = useRoute();
 
 const currentPlan = computed(() =>
-  getPlan(Number(route.params.projectID), Number(route.params.planID)),
+  getPlan(Number(route.params.projectId), Number(route.params.planId)),
 );
 const openedSuite = ref<number[]>([]);
 
 onMounted(() => {
   const currentSuite = getPlanSuite(
-    Number(route.params.projectID),
-    Number(route.params.planID),
-    Number(route.params.groupID),
+    Number(route.params.projectId),
+    Number(route.params.planId),
+    Number(route.params.groupId),
   );
   if (currentSuite) {
     openedSuite.value.push(currentSuite.id);

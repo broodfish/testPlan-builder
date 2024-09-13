@@ -22,7 +22,7 @@ definePageMeta({
 
 const route = useRoute();
 const currentRun = computed(() =>
-  getRun(Number(route.params.projectID), Number(route.params.runID)),
+  getRun(Number(route.params.projectId), Number(route.params.runId)),
 );
 const tempCases = ref<CaseGroup[]>([]);
 

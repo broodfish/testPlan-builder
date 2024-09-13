@@ -2,7 +2,7 @@
   <div class="tw-flex tw-h-[calc(100vh_-_244px)] tw-flex-row tw-gap-[30px]">
     <custom-card
       :title="
-        getPlan(Number(route.params.projectID), Number(route.params.planID))!
+        getPlan(Number(route.params.projectId), Number(route.params.planId))!
           .name
       "
       no-padding
@@ -103,11 +103,11 @@ definePageMeta({
 const route = useRoute();
 
 const currentCase = computed(() => {
-  const projectID = Number(route.params.projectID);
-  const planID = Number(route.params.planID);
-  const groupID = Number(route.params.groupID);
-  const caseID = Number(route.params.caseID);
-  return getPlanCase(projectID, planID, groupID, caseID);
+  const projectId = Number(route.params.projectId);
+  const planId = Number(route.params.planId);
+  const groupId = Number(route.params.groupId);
+  const caseId = Number(route.params.caseId);
+  return getPlanCase(projectId, planId, groupId, caseId);
 });
 
 const isNoChanged = computed(() => {

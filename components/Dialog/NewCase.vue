@@ -7,8 +7,8 @@
         <v-combobox
           :items="
             getExistedSuites(
-              Number(route.params.projectID),
-              Number(route.params.planID),
+              Number(route.params.projectId),
+              Number(route.params.planId),
             )
           "
           label="Test Suites"

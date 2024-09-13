@@ -1,15 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 export default defineNuxtConfig({
-  app: {
-    layoutTransition: { name: "page", mode: "out-in" },
-    pageTransition: { name: "page", mode: "out-in" },
-  },
+  // app: {
+  //   layoutTransition: { name: "page", mode: "out-in" },
+  //   pageTransition: { name: "page", mode: "out-in" },
+  // },
+
   build: {
     transpile: ["vuetify"],
   },
+
   css: ["~/assets/css/global.scss"],
   devtools: { enabled: true },
+
   modules: [
     "@nuxtjs/tailwindcss",
     (_options, nuxt) => {
@@ -20,9 +23,11 @@ export default defineNuxtConfig({
     },
     "@pinia/nuxt",
   ],
+
   typescript: {
     typeCheck: true,
   },
+
   vite: {
     vue: {
       template: {
@@ -30,4 +35,6 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  compatibilityDate: "2024-09-13",
 });

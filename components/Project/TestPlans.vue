@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="getPlans(Number(route.params.projectID))"
+      :items="getPlans(Number(route.params.projectId))"
     >
       <template #item="{ item }">
         <v-hover>
@@ -13,7 +13,9 @@
               class="cursor-pointer"
               :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
               @click="
-                navigateTo(`/project-${route.params.projectID}/plan-${item.id}`)
+                navigateTo(
+                  `/projects/${route.params.projectId}/plan/${item.id}`,
+                )
               "
             >
               <td>

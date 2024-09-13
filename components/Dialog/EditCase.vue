@@ -8,8 +8,8 @@
           v-model="suite"
           :items="
             getExistedSuites(
-              Number(route.params.projectID),
-              Number(route.params.planID),
+              Number(route.params.projectId),
+              Number(route.params.planId),
             )
           "
           label="Test Suites"
@@ -73,8 +73,8 @@ const modelValue = computed<boolean>({
 const name = ref<string>(props.data.name);
 const suite = ref<string | undefined>(
   getPlanSuite(
-    Number(route.params.projectID),
-    Number(route.params.planID),
+    Number(route.params.projectId),
+    Number(route.params.planId),
     props.data.gid,
   )?.name,
 );
@@ -91,8 +91,8 @@ watch(
     name.value = value.name;
     priority.value = value.priority;
     suite.value = getPlanSuite(
-      Number(route.params.projectID),
-      Number(route.params.planID),
+      Number(route.params.projectId),
+      Number(route.params.planId),
       props.data.gid,
     )?.name;
   },

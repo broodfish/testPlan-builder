@@ -40,7 +40,7 @@
                 :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
                 @click="
                   navigateTo(
-                    `/project-${route.params.projectID}/plan-${item.id}`,
+                    `/projects/${route.params.projectId}/plan/${item.id}`,
                   )
                 "
               >
@@ -74,7 +74,7 @@
               class="cursor-pointer"
               :class="isHovering ? 'bg-shadow' : 'bg-transparent'"
               @click="
-                navigateTo(`/project-${route.params.projectID}/run-${item.id}`)
+                navigateTo(`/projects/${route.params.projectId}/run/${item.id}`)
               "
             >
               <td>{{ item.name }}</td>
@@ -96,14 +96,14 @@
 </template>
 <script setup lang="ts">
 const route = useRoute();
-const project = computed(() => getProject(Number(route.params.projectID)));
+const project = computed(() => getProject(Number(route.params.projectId)));
 const plans = computed(() => {
-  const plans = getPlans(Number(route.params.projectID));
+  const plans = getPlans(Number(route.params.projectId));
 
   return plans?.slice(plans.length - 5, plans.length) || [];
 });
 const runs = computed(
-  () => getRuns(Number(route.params.projectID))?.reverse().slice(0, 5) || [],
+  () => getRuns(Number(route.params.projectId))?.reverse().slice(0, 5) || [],
 );
 const calculate = (cases: {
   totalCases: number;
