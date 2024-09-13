@@ -26,11 +26,12 @@
 
 * {
   &::-webkit-scrollbar {
-    background: rgba(var(--v-theme-primary-darken-1), 0.1);
+    background: transparent;
+    width: 12px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(var(--v-theme-primary), 0.15);
+    background: rgba(var(--v-theme-primary), 0.4);
     border-radius: 8px;
   }
 }
@@ -71,12 +72,12 @@ textarea {
     linear-gradient(
       0deg,
       rgb(255, 255, 255),
-      rgba(var(--v-theme-tertiary), 0.1)
+      rgba(var(--v-theme-tertiary), 0.05)
     ),
     linear-gradient(
       90deg,
       rgb(255, 255, 255),
-      rgba(var(--v-theme-tertiary), 0.1)
+      rgba(var(--v-theme-tertiary), 0.05)
     ),
     95% url("/assets/images/header.png");
   background-clip: padding-box;
