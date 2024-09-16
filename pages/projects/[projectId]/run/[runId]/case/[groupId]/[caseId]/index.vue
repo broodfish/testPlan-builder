@@ -5,7 +5,7 @@
         getRun(Number(route.params.projectId), Number(route.params.runId))!.name
       "
       no-padding
-      class="tw-w-[272px]"
+      class="tw-w-[270px]"
     >
       <template #content>
         <run-folder></run-folder>

@@ -3,7 +3,6 @@
     v-model:opened="openedSuite"
     :selected="[Number(route.params.caseId)]"
     density="compact"
-    width="270"
     class="px-2 tw-text-sm"
   >
     <v-list-group
