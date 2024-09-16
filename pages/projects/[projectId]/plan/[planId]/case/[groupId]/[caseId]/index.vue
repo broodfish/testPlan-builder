@@ -6,6 +6,7 @@
           .name
       "
       no-padding
+      class="tw-w-[270px]"
     >
       <template #content>
         <plan-folder></plan-folder>

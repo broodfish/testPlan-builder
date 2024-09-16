@@ -62,18 +62,7 @@
           </span>
         </template>
       </v-list-item>
-      <v-list-item>
-        <v-btn prepend-icon="add" variant="plain" color="primary" size="small"
-          >New Case <menu-new-case></menu-new-case>
-        </v-btn>
-      </v-list-item>
     </v-list-group>
-    <v-list-item class="tw-mt-2">
-      <v-btn prepend-icon="add" variant="plain" color="primary" size="small"
-        >New Test Suite
-        <menu-new-suite></menu-new-suite>
-      </v-btn>
-    </v-list-item>
   </v-list>
 </template>
 <script setup lang="ts">
