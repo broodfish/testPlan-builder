@@ -1,9 +1,9 @@
 <template>
   <v-list
+    v-if="isReady"
     v-model:opened="openedSuite"
     :selected="[Number(route.params.caseId)]"
     density="compact"
-    width="270"
     class="px-2 tw-text-sm"
   >
     <v-list-group
@@ -67,6 +67,7 @@
 </template>
 <script setup lang="ts">
 const route = useRoute();
+const isReady = ref(false);
 
 const currentPlan = computed(() =>
   getPlan(Number(route.params.projectId), Number(route.params.runId)),
@@ -82,5 +83,6 @@ onMounted(() => {
   if (currentSuite) {
     openedSuite.value.push(currentSuite.id);
   }
+  isReady.value = true;
 });
 </script>
