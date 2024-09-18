@@ -7,7 +7,7 @@
     class="px-2 tw-text-sm"
   >
     <v-list-group
-      v-for="group in currentPlan?.cases.data"
+      v-for="group in currentPlan?.plan.cases.data"
       :key="group.id"
       :value="group.id"
     >
@@ -70,7 +70,7 @@ const route = useRoute();
 const isReady = ref(false);
 
 const currentPlan = computed(() =>
-  getPlan(Number(route.params.projectId), Number(route.params.runId)),
+  getRun(Number(route.params.projectId), Number(route.params.runId)),
 );
 const openedSuite = ref<number[]>([]);
 
