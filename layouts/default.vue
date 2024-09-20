@@ -2,7 +2,7 @@
   <v-app>
     <default-app-bar></default-app-bar>
     <v-main>
-      <div class="tw-max-h-[calc(100vh_-_64px)]">
+      <div class="show-scrollbar tw-max-h-[calc(100vh_-_64px)]">
         <default-header></default-header>
         <div
           class="tw-flex tw-flex-col tw-gap-[30px] tw-px-[60px] tw-py-[40px]"

@@ -4,8 +4,9 @@
       <div
         class="text-h6 tw-flex tw-flex-row tw-items-center tw-gap-4 tw-pl-12"
       >
-        <v-icon color="primary">description</v-icon>
-        Zinwell Plan
+        <!-- <v-icon color="primary">description</v-icon>
+        Zinwell Plan -->
+        <svg-logo class="tw-h-[30px]"></svg-logo>
       </div>
     </nuxt-link>
     <v-spacer></v-spacer>

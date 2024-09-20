@@ -1,3 +1,21 @@
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+.show-scrollbar {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: auto; /* Firefox */
+  -ms-overflow-style: auto; /* Internet Explorer 10+ */
+  &::-webkit-scrollbar {
+    display: auto; /* Chrome, Safari, Opera */
+  }
+}
+
 .v-data-table-footer {
   border-top: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
@@ -15,34 +33,11 @@
   filter: blur(1rem);
 }
 
-.hide-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-* {
-  &::-webkit-scrollbar {
-    background: transparent;
-    width: 12px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(var(--v-theme-primary), 0.4);
-    border-radius: 8px;
-  }
-}
-
 textarea {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
   &::-webkit-scrollbar {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: transparent;
+    display: none; /* Chrome, Safari, Opera */
   }
 }
 
