@@ -32,49 +32,53 @@
             size="large"
             rounded
           >
-            See More
+            Learn More
           </v-btn>
         </div>
       </div>
     </section>
     <section class="section">
-      <div class="text-left tw-flex tw-flex-row tw-justify-center tw-gap-4">
+      <div
+        class="text-left tw-flex tw-flex-row tw-items-center tw-justify-center tw-gap-4"
+      >
         <v-card width="240" rounded="lg">
           <v-card-title>Build</v-card-title>
-          <v-card-text>
+          <v-card-text class="text-secondary">
             <p>Create a project and define test cases.</p>
           </v-card-text>
           <template #prepend>
             <div
-              class="tw-flex tw-h-12 tw-w-12 tw-items-center tw-justify-center tw-rounded-lg tw-bg-black"
+              class="tw-flex tw-h-14 tw-w-14 tw-items-center tw-justify-center tw-rounded-lg tw-bg-black"
             >
-              <v-icon color="white" size="large">build</v-icon>
+              <v-icon color="white" size="x-large">build</v-icon>
             </div>
           </template>
         </v-card>
+        <v-icon>arrow_forward_ios</v-icon>
         <v-card width="240" rounded="lg">
           <v-card-title>Write</v-card-title>
-          <v-card-text>
+          <v-card-text class="text-secondary">
             <p>Write test plans and test cases.</p>
           </v-card-text>
           <template #prepend>
             <div
-              class="tw-flex tw-h-12 tw-w-12 tw-items-center tw-justify-center tw-rounded-lg tw-bg-black"
+              class="tw-flex tw-h-14 tw-w-14 tw-items-center tw-justify-center tw-rounded-lg tw-bg-black"
             >
-              <v-icon color="white" size="large">edit</v-icon>
+              <v-icon color="white" size="x-large">edit</v-icon>
             </div>
           </template>
         </v-card>
+        <v-icon>arrow_forward_ios</v-icon>
         <v-card width="240" rounded="lg">
           <v-card-title>Run</v-card-title>
-          <v-card-text>
+          <v-card-text class="text-secondary">
             <p>Run test cases and view results.</p>
           </v-card-text>
           <template #prepend>
             <div
-              class="tw-flex tw-h-12 tw-w-12 tw-items-center tw-justify-center tw-rounded-lg tw-bg-black"
+              class="tw-flex tw-h-14 tw-w-14 tw-items-center tw-justify-center tw-rounded-lg tw-bg-black"
             >
-              <v-icon color="white" size="large">play_arrow</v-icon>
+              <v-icon color="white" size="x-large">play_arrow</v-icon>
             </div>
           </template>
         </v-card>
@@ -123,7 +127,7 @@ definePageMeta({
 }
 
 .gradient-text {
-  background: linear-gradient(45deg, #00f2ff, #00ff95);
+  background: linear-gradient(90deg, #00fffb, #00ffb7);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
